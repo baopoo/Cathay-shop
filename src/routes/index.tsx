@@ -1,11 +1,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { clientRoutes } from "@/client/routes";
+import { PageNotFound } from "@/components";
+import { adminRoutes } from "@/admin/routes";
 
 const router = createBrowserRouter([
   clientRoutes,
+  adminRoutes,
   {
     path: "*",
-    element: <div>404 - Page not found</div>,
+    element: <PageNotFound />,
   },
 ]);
 
