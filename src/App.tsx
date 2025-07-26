@@ -1,14 +1,9 @@
 import "./App.css";
 import "./styles/App.scss";
-import { Button } from "antd";
+import AppRoutes from "./routes";
 
 function App() {
-  return (
-    <>
-      <span className="container text-3xl text-red-500">Cathay shop</span>
-      <Button type="primary">Click me</Button>
-    </>
-  );
+  return <AppRoutes />;
 }
 
 export default App;
