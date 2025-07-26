@@ -1,14 +1,17 @@
-import { Route, Routes } from "react-router-dom";
-import AdminRoutes from "@/admin/routes";
-import AppClientRoutes from "@/client/routes";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { clientRoutes } from "@/client/routes";
 import { PageNotFound } from "@/components";
+import { adminRoutes } from "@/admin/routes";
+
+const router = createBrowserRouter([
+  clientRoutes,
+  adminRoutes,
+  {
+    path: "*",
+    element: <PageNotFound />,
+  },
+]);
 
 export default function AppRoutes() {
-  return (
-    <Routes>
-      <Route index element={<AppClientRoutes />} />
-      <Route path="/admin" element={<AdminRoutes />} />
-      <Route path="*" element={<PageNotFound />}></Route>
-    </Routes>
-  );
+  return <RouterProvider router={router} />;
 }

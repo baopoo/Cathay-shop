@@ -1,11 +1,5 @@
-import { Header } from "@/client/components";
-
 const Home = () => {
-  return (
-    <div>
-      <Header />
-    </div>
-  );
+  return <div>Test</div>;
 };
 
 export default Home;

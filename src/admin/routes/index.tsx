@@ -1,14 +1,10 @@
-import { Route, Routes } from "react-router-dom";
+import { type RouteObject } from "react-router-dom";
 
 import { AdminLayout } from "../layouts";
 import { Home } from "../views";
 
-export default function AdminRoutes() {
-  return (
-    <Routes>
-      <Route element={<AdminLayout />}>
-        <Route index element={<Home />} />
-      </Route>
-    </Routes>
-  );
-}
+export const adminRoutes: RouteObject = {
+  path: "/admin",
+  element: <AdminLayout />,
+  children: [{ index: true, element: <Home /> }],
+};
