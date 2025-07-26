@@ -1,10 +1,9 @@
-import { Routes, Route } from "react-router-dom";
+import type { RouteObject } from "react-router-dom";
 import { Home } from "@/client/views";
+import { MainLayout } from "@/client/layouts";
 
-export default function AppClientRoutes() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />;
-    </Routes>
-  );
-}
+export const clientRoutes: RouteObject = {
+  path: "/",
+  element: <MainLayout />,
+  children: [{ index: true, element: <Home /> }],
+};
