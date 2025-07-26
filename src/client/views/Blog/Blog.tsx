@@ -1,7 +1,7 @@
 import { FeaturePending } from "@/components";
 
-const Contact = () => {
+const Blog = () => {
   return <FeaturePending />;
 };
 
-export default Contact;
+export default Blog;
