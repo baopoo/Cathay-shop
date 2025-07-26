@@ -5,7 +5,7 @@ import { adminRoutes } from "@/admin/routes";
 
 const router = createBrowserRouter([
   clientRoutes,
-  adminRoutes,
+  ...adminRoutes,
   {
     path: "*",
     element: <PageNotFound />,
