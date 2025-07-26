@@ -1,5 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import AppClientRoutes from "@/client/routes";
 
 export default function AppRoutes() {
-  return <Routes></Routes>;
+  return <AppClientRoutes />;
 }
