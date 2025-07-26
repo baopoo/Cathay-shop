@@ -13,4 +13,5 @@ export interface FilterVal {
   price: string;
   color: string;
   tags: string[];
+  searchVal: string;
 }
