@@ -11,7 +11,7 @@ interface IProps {
   children: ReactNode;
 }
 
-const LayoutProvider: React.FC<IProps> = ({ children }) => {
+const LayoutProvider = ({ children }: IProps) => {
   const [open, setOpen] = useState(false);
 
   const value = { open, setOpen };

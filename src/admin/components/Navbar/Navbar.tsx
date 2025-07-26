@@ -5,17 +5,22 @@ import {
   ShoppingOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const { Sider } = Layout;
 
 const Navbar = () => {
   const { open } = useLayoutContext();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <Sider
       trigger={null}
       collapsible
       collapsed={open}
+      width={200}
       style={{
         background: "white",
         boxShadow: "0 1px 5px rgba(0, 0, 0, 0.08)",
@@ -27,22 +32,25 @@ const Navbar = () => {
       <Menu
         theme="light"
         mode="inline"
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={[location.pathname]}
         items={[
           {
-            key: "1",
+            key: "/admin/category",
             icon: <AppstoreOutlined />,
             label: "Categories",
+            onClick: () => navigate("/admin/category"),
           },
           {
-            key: "2",
+            key: "/admin/product",
             icon: <ShoppingOutlined />,
             label: "Products",
+            onClick: () => navigate("/admin/product"),
           },
           {
-            key: "3",
+            key: "/admin/order",
             icon: <ProfileOutlined />,
             label: "Orders",
+            onClick: () => navigate("/admin/order"),
           },
         ]}
       />
