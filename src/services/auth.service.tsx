@@ -47,12 +47,7 @@ export const useAuthService = () => {
       setLoading(true);
       return await account.get();
     } catch (errors) {
-      if (errors instanceof AppwriteException)
-        notification.error({
-          message: errors.type,
-          description: errors.message,
-        });
-      throw errors;
+      console.log(errors);
     } finally {
       setLoading(false);
     }
