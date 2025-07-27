@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Table, type TableProps } from "antd";
+import { PlusCircleOutlined, SearchOutlined } from "@ant-design/icons";
+import { Button, Input, Table, type TableProps } from "antd";
 import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import type { SorterResult } from "antd/es/table/interface";
+import _ from "lodash";
+import { useCallback } from "react";
 
 export interface IDataTable<T> {
   columns: ColumnsType<T>;
@@ -9,6 +12,8 @@ export interface IDataTable<T> {
   pagination?: TableProps<T>["pagination"];
   setPagination?: (pagination: TablePaginationConfig) => void;
   setSorter?: (sorter: SorterResult<T> | SorterResult<T>[]) => void;
+  onClickButton?: () => void;
+  handleSearch?: (value: string) => void;
 }
 
 const DataTable = <T extends object>({
@@ -17,6 +22,8 @@ const DataTable = <T extends object>({
   pagination,
   setPagination,
   setSorter,
+  onClickButton,
+  handleSearch,
 }: IDataTable<T>) => {
   const handleTableChange = (
     newPagination: TablePaginationConfig,
@@ -30,14 +37,38 @@ const DataTable = <T extends object>({
     if (extra.action === "paginate") setPagination?.(newPagination);
     if (extra.action === "sort") setSorter?.(sorter);
   };
+
+  const searchDebounce = _.debounce((value: string) => {
+    handleSearch?.(value);
+  }, 500);
+
+  const onSearch = useCallback(
+    (event: any) => searchDebounce(event.target.value),
+    []
+  );
+
   return (
-    <Table<T>
-      rowKey={(record) => (record as any).$id || (record as any).key}
-      columns={columns}
-      dataSource={data}
-      pagination={pagination}
-      onChange={handleTableChange}
-    />
+    <>
+      <div className="flex items-center justify-between mb-5">
+        <Input
+          className="w-[300px]"
+          placeholder="Search........"
+          suffix={<SearchOutlined />}
+          onChange={onSearch}
+        />
+        <Button type="primary" onClick={onClickButton}>
+          <PlusCircleOutlined />
+          Add Category
+        </Button>
+      </div>
+      <Table<T>
+        rowKey={(record) => (record as any).$id || (record as any).key}
+        columns={columns}
+        dataSource={data}
+        pagination={pagination}
+        onChange={handleTableChange}
+      />
+    </>
   );
 };
 
