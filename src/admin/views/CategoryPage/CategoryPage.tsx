@@ -27,6 +27,7 @@ const CategoryPage = () => {
     categories,
     pagination,
     fetchCategories,
+    searchName,
     handlePagination,
     handleSubmit,
     handleSearch,
@@ -34,7 +35,7 @@ const CategoryPage = () => {
 
   useEffect(() => {
     fetchCategories();
-  }, [pagination]);
+  }, [pagination.current, pagination.pageSize, searchName]);
 
   return (
     <div className="p-5">
