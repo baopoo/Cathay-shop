@@ -1,15 +1,10 @@
 import React from "react";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Flex } from "antd";
-import { useAuth } from "@/services";
-import type { ISignInPayload } from "@/interfaces";
+import { useAuth } from "@/admin/hooks/useAuth";
 
 const LoginPage: React.FC = () => {
-  const { signIn } = useAuth();
-
-  const onFinish = (values: ISignInPayload) => {
-    signIn(values);
-  };
+  const { onFinish } = useAuth();
 
   return (
     <div className="h-screen flex flex-col items-center justify-center">
