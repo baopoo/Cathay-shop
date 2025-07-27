@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Badge, Drawer } from "antd";
 import {
   ShoppingCartOutlined,
@@ -10,7 +11,12 @@ import {
 import Navbar from "./Navbar";
 
 const Header = () => {
+  const navigate = useNavigate();
   const [openDrawer, setOpenDrawer] = useState(false);
+
+  const goToCart = () => {
+    navigate("/shopping-cart");
+  };
 
   return (
     <header className="border-b-2 shadow-sm bg-white">
@@ -29,7 +35,10 @@ const Header = () => {
         {/* Icons + Mobile Menu */}
         <div className="flex items-center space-x-4 md:space-x-5 text-xl text-gray-700">
           <Badge count={2} size="small" offset={[0, -2]}>
-            <ShoppingCartOutlined className="cursor-pointer hover:text-blue-600 text-2xl" />
+            <ShoppingCartOutlined
+              className="cursor-pointer hover:text-blue-600 text-2xl"
+              onClick={goToCart}
+            />
           </Badge>
 
           <Badge count={2} size="small" offset={[0, -2]}>

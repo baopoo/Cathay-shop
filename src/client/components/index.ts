@@ -3,3 +3,5 @@ export * from "./Toolbar";
 export * from "./Filters";
 export * from "./ProductPage";
 export * from "./Footer";
+export * from "./ShoppingCart";
+export * from "./ProductDetail";

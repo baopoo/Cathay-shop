@@ -5,8 +5,15 @@ import {
   InstagramOutlined,
   TwitterOutlined,
 } from "@ant-design/icons";
+import { Button, notification } from "antd";
 
 const Footer = () => {
+  const onSubscribe = () => {
+    notification.info({
+      message: "This feature is currently under development !",
+    });
+  };
+
   return (
     <footer className="bg-neutral-900 text-neutral-100 px-6 py-12">
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-10">
@@ -43,9 +50,12 @@ const Footer = () => {
             placeholder="email@example.com"
             className="w-full bg-transparent border-b border-neutral-700 pb-2 mb-4 text-neutral-300 placeholder:text-neutral-500 focus:outline-none"
           />
-          <button className="w-full px-6 py-2 bg-indigo-600 hover:bg-indigo-700 transition rounded text-white">
+          <Button
+            className="w-full px-6 py-2 bg-indigo-600 hover:!bg-indigo-700 transition rounded text-white hover:!text-white border-none"
+            onClick={onSubscribe}
+          >
             SUBSCRIBE
-          </button>
+          </Button>
         </div>
       </div>
 
