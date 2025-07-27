@@ -4,7 +4,7 @@ import { navItems } from "@/client/constants";
 
 const Navbar = () => {
   return (
-    <nav className="flex space-x-6 text-sm font-medium text-gray-700">
+    <nav className="flex flex-col sm:flex-row sm:space-x-6 text-xl sm:text-sm font-medium text-gray-700">
       {navItems.map((item) => (
         <NavLink
           key={item.path}

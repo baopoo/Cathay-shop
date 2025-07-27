@@ -20,14 +20,17 @@ const Toolbar = () => {
 
   return (
     <div className="mb-6">
-      <div className="flex justify-between items-center py-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 py-4">
         <CategoryTabs active={activeTab} onChange={setActiveTab} />
-        <ToolbarActions
-          showFilter={showFilter}
-          showSearch={showSearch}
-          setShowFilter={setShowFilter}
-          setShowSearch={setShowSearch}
-        />
+
+        <div className="flex justify-start sm:justify-end gap-2 w-full sm:w-auto">
+          <ToolbarActions
+            showFilter={showFilter}
+            showSearch={showSearch}
+            setShowFilter={setShowFilter}
+            setShowSearch={setShowSearch}
+          />
+        </div>
       </div>
       <div
         className={`transition-all duration-500 ease-in-out overflow-hidden ${
@@ -43,7 +46,7 @@ const Toolbar = () => {
       </div>
       <div
         className={`transition-all duration-500 ease-in-out overflow-hidden ${
-          showFilter ? "max-h-[275px] opacity-100 mt-4" : "max-h-0 opacity-0"
+          showFilter ? "max-h-fit opacity-100 mt-4" : "max-h-0 opacity-0"
         }`}
       >
         <FilterPanel

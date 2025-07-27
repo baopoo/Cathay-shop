@@ -3,7 +3,7 @@ import type { CategoryTabsProps } from "@/client/types";
 
 const CategoryTabs = ({ active, onChange }: CategoryTabsProps) => {
   return (
-    <div className="flex gap-6 text-sm font-medium">
+    <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm font-medium max-w-full">
       {categoriesTab.map(({ id, name }) => (
         <button
           key={id}
