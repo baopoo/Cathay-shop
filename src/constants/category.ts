@@ -9,4 +9,9 @@ export const CATEGORY_COLUMN = [
     dataIndex: "name",
     sorter: true,
   },
+  {
+    title: "Slug",
+    dataIndex: "slug",
+    sorter: true,
+  },
 ];

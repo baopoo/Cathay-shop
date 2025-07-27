@@ -3,13 +3,14 @@ import { useCategory } from "@/admin/hooks";
 import { CATEGORY_COLUMN } from "@/constants";
 import { useCategoryService } from "@/services";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Input } from "antd";
+import { Button, Input, Modal, Popconfirm, Space } from "antd";
 import type {
   ColumnsType,
   TablePaginationConfig,
 } from "antd/es/table/interface";
 import { useEffect, useState } from "react";
 import CategoryForm from "./CategoryForm";
+import { useCategoryStore } from "@/admin/stores";
 
 type User = {
   id: string;
@@ -24,30 +25,61 @@ const CategoryPage = () => {
   };
 
   const {
-    categories,
+    formValues,
     pagination,
-    fetchCategories,
     searchName,
+    open,
+    openModal,
+    closeModal,
+    fetchCategories,
     handlePagination,
     handleSubmit,
     handleSearch,
+    handleDelete,
   } = useCategory();
+
+  const { categories, loading } = useCategoryStore();
 
   useEffect(() => {
     fetchCategories();
   }, [pagination.current, pagination.pageSize, searchName]);
 
+  const actionColumn = {
+    title: "Thao tác",
+    key: "action",
+    render: (_, record) => (
+      <Space>
+        <Button onClick={() => openModal(record)}>Edit</Button>
+        <Popconfirm
+          title="Do you want to delete this category?"
+          onConfirm={() => handleDelete(record.$id)}
+        >
+          <Button danger>Delete</Button>
+        </Popconfirm>
+      </Space>
+    ),
+  };
+
   return (
     <div className="p-5">
-      <CategoryForm onSubmit={handleSubmit} />
+      <div className="text-4xl mb-7 mt-2">Category Management</div>
       <DataTable<User>
-        columns={CATEGORY_COLUMN}
+        loading={loading}
+        columns={[...CATEGORY_COLUMN, actionColumn]}
         data={categories}
         pagination={pagination}
         setPagination={handlePagination}
         setSorter={handleChange}
         handleSearch={handleSearch}
+        onClickButton={openModal}
       />
+      <Modal open={open} onCancel={closeModal} footer="">
+        <CategoryForm
+          onSubmit={handleSubmit}
+          formValues={formValues}
+          loading={loading}
+        />
+      </Modal>
     </div>
   );
 };

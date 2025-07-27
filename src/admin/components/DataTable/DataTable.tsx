@@ -7,6 +7,7 @@ import _ from "lodash";
 import { useCallback } from "react";
 
 export interface IDataTable<T> {
+  loading: boolean;
   columns: ColumnsType<T>;
   data: T[];
   pagination?: TableProps<T>["pagination"];
@@ -17,6 +18,7 @@ export interface IDataTable<T> {
 }
 
 const DataTable = <T extends object>({
+  loading,
   columns,
   data,
   pagination,
@@ -62,6 +64,7 @@ const DataTable = <T extends object>({
         </Button>
       </div>
       <Table<T>
+        loading={loading}
         rowKey={(record) => (record as any).$id || (record as any).key}
         columns={columns}
         dataSource={data}

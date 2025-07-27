@@ -2,19 +2,25 @@ import { useCategoryService } from "@/services";
 import { useCategoryStore } from "../stores/category.store";
 import { generateSlug } from "@/utils";
 import { Query } from "appwrite";
-import { useEffect, useState } from "react";
-import type { TablePaginationConfig } from "antd";
+import { useState } from "react";
+import { notification, type TablePaginationConfig } from "antd";
+
+const INITIAL_PAGINATION = {
+  current: 1,
+  pageSize: 5,
+  total: 0,
+};
 
 export const useCategory = () => {
-  const [pagination, setPagination] = useState<TablePaginationConfig>({
-    current: 1,
-    pageSize: 3,
-    total: 0,
-  });
+  const [pagination, setPagination] =
+    useState<TablePaginationConfig>(INITIAL_PAGINATION);
   const [searchName, setSearchName] = useState("");
+  const [open, setOpen] = useState(false);
+  const [formValues, setFormValues] = useState<Record<string, any>>();
 
-  const { categories, setCategories } = useCategoryStore();
-  const { getCategories, createCategory, loading } = useCategoryService();
+  const { setCategories } = useCategoryStore();
+  const { getCategories, createCategory, updateCategory, deleteCategory } =
+    useCategoryService();
 
   const buildQuery = () => {
     const query = [
@@ -22,6 +28,7 @@ export const useCategory = () => {
       Query.offset(
         ((pagination.current || 1) - 1) * (pagination.pageSize || 3)
       ),
+      Query.orderDesc("$createdAt"),
     ];
 
     if (searchName.trim()) {
@@ -55,19 +62,46 @@ export const useCategory = () => {
   };
 
   const handleSubmit = async (data: any) => {
-    await createCategory({ name: data.name, slug: generateSlug(data.name) });
+    if (formValues?.$id)
+      await updateCategory(formValues?.$id, {
+        name: data.name,
+        slug: generateSlug(data.name),
+      });
+    else
+      await createCategory({ name: data.name, slug: generateSlug(data.name) });
     setPagination((prev) => ({ ...prev, current: 1 }));
-    fetchCategories();
+    setOpen(false);
+    setFormValues({});
+    await fetchCategories();
+    notification.success({ message: "Created category successfully" });
+  };
+
+  const handleDelete = async (id: string) => {
+    await deleteCategory(id);
+    setPagination((prev) => ({ ...prev, current: 1 }));
+    await fetchCategories();
+  };
+
+  const openModal = (value?: Record<string, any>) => {
+    setOpen(true);
+    value ? setFormValues(value) : setFormValues({});
+  };
+
+  const closeModal = () => {
+    setOpen(false);
   };
 
   return {
-    categories,
+    formValues,
     pagination,
-    loading,
     searchName,
+    open,
+    handleDelete,
     fetchCategories,
     handlePagination,
     handleSearch,
     handleSubmit,
+    openModal,
+    closeModal,
   };
 };

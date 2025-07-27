@@ -1,16 +1,16 @@
+import { useCategoryStore } from "@/admin/stores";
 import { databases } from "@/appwrite";
 import { CATEGORIES_ID, DATABASE_ID } from "@/constants";
 import { notification } from "antd";
 import { AppwriteException } from "appwrite";
-import { useState } from "react";
 
 export const useCategoryService = () => {
-  const [loading, setLoading] = useState(false);
+  const { setLoading } = useCategoryStore();
 
-  const getCategories = (query = []) => {
+  const getCategories = async (query = []) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      return databases.listDocuments(DATABASE_ID, CATEGORIES_ID, query);
+      return await databases.listDocuments(DATABASE_ID, CATEGORIES_ID, query);
     } catch (errors) {
       if (errors instanceof AppwriteException)
         notification.error({
@@ -23,10 +23,10 @@ export const useCategoryService = () => {
     }
   };
 
-  const getCategory = (id: string) => {
+  const getCategory = async (id: string) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      return databases.getDocument(DATABASE_ID, CATEGORIES_ID, id);
+      return await databases.getDocument(DATABASE_ID, CATEGORIES_ID, id);
     } catch (errors) {
       if (errors instanceof AppwriteException)
         notification.error({
@@ -39,10 +39,10 @@ export const useCategoryService = () => {
     }
   };
 
-  const createCategory = (payload: any) => {
+  const createCategory = async (payload: any) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      return databases.createDocument(
+      return await databases.createDocument(
         DATABASE_ID,
         CATEGORIES_ID,
         "unique()",
@@ -60,10 +60,15 @@ export const useCategoryService = () => {
     }
   };
 
-  const updateCategory = (id: string, payload: any) => {
+  const updateCategory = async (id: string, payload: any) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      return databases.updateDocument(DATABASE_ID, CATEGORIES_ID, id, payload);
+      return await databases.updateDocument(
+        DATABASE_ID,
+        CATEGORIES_ID,
+        id,
+        payload
+      );
     } catch (errors) {
       if (errors instanceof AppwriteException)
         notification.error({
@@ -76,10 +81,10 @@ export const useCategoryService = () => {
     }
   };
 
-  const deleteCategory = (id: string) => {
+  const deleteCategory = async (id: string) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      return databases.deleteDocument(DATABASE_ID, CATEGORIES_ID, id);
+      return await databases.deleteDocument(DATABASE_ID, CATEGORIES_ID, id);
     } catch (errors) {
       if (errors instanceof AppwriteException)
         notification.error({
@@ -93,7 +98,6 @@ export const useCategoryService = () => {
   };
 
   return {
-    loading,
     getCategories,
     getCategory,
     createCategory,
