@@ -16,7 +16,6 @@ export const priceOptions = [
 ];
 
 export const colorOptions = [
-  { name: "All", value: "unset" },
   { name: "Black", value: "#000" },
   { name: "Blue", value: "#3b82f6" },
   { name: "Grey", value: "#9ca3af" },

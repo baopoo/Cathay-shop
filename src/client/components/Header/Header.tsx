@@ -6,7 +6,7 @@ import Navbar from "./Navbar";
 const Header = () => {
   return (
     <header className="border-b-2 shadow-sm bg-white">
-      <div className="flex items-center justify-between px-10 py-4 bg-white mx-[265px]">
+      <div className="flex items-center justify-between px-10 py-4 bg-white container mx-auto">
         {/* Logo */}
         <div className="text-2xl font-bold">
           <span className="text-gray-900 mr-1">CATHAY</span>

@@ -11,7 +11,7 @@ const Toolbar = () => {
   const [filters, setFilters] = useState<FilterVal>({
     sortBy: "Default",
     price: "All",
-    color: "All",
+    color: "",
     tags: [],
     searchVal: "",
   });
@@ -19,7 +19,7 @@ const Toolbar = () => {
   const [showSearch, setShowSearch] = useState(false);
 
   return (
-    <>
+    <div className="mb-6">
       <div className="flex justify-between items-center py-4">
         <CategoryTabs active={activeTab} onChange={setActiveTab} />
         <ToolbarActions
@@ -30,7 +30,7 @@ const Toolbar = () => {
         />
       </div>
       <div
-        className={`transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`transition-all duration-500 ease-in-out overflow-hidden ${
           showSearch ? "max-h-[275px] opacity-100 mt-4" : "max-h-0 opacity-0"
         }`}
       >
@@ -53,7 +53,7 @@ const Toolbar = () => {
           }}
         />
       </div>
-    </>
+    </div>
   );
 };
 

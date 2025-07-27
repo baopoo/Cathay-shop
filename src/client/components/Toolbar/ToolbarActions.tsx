@@ -32,6 +32,7 @@ const ToolbarActions = ({
       </Button>
       <Button
         icon={<SearchOutlined />}
+        type={showSearch ? "primary" : "default"}
         onClick={() => {
           setShowFilter(false);
           setShowSearch(!showSearch);
