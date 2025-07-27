@@ -1,8 +1,9 @@
 import { DataTable } from "@/admin/components";
+import { useCategory } from "@/admin/hooks";
+import { CATEGORY_COLUMN } from "@/constants";
 import { useCategoryService } from "@/services";
 import type {
   ColumnsType,
-  SorterResult,
   TablePaginationConfig,
 } from "antd/es/table/interface";
 import { useEffect, useState } from "react";
@@ -33,33 +34,19 @@ const CategoryPage = () => {
     console.log(value);
   };
 
-  const columns: ColumnsType<User> = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      sorter: (a, b) => a.name.localeCompare(b.name),
-    },
-    {
-      title: "Age",
-      dataIndex: "age",
-      sorter: (a, b) => a.age - b.age,
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-    },
-  ];
-  const { getCategories, getCategory } = useCategoryService();
+  const { categories, fetchCategories } = useCategory();
+
+  console.log(categories);
   useEffect(() => {
-    getCategories();
-    getCategory("6885d6b5003548856312");
-  });
+    fetchCategories();
+  }, []);
+
   return (
     <div>
       This is Category Page
       <DataTable<User>
-        columns={columns}
-        data={initialData}
+        columns={CATEGORY_COLUMN}
+        data={categories}
         pagination={pagination}
         setPagination={handleChange}
         setSorter={handleChange}

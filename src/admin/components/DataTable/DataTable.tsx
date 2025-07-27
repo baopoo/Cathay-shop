@@ -32,7 +32,7 @@ const DataTable = <T extends object>({
   };
   return (
     <Table<T>
-      rowKey={(record) => (record as any).id || (record as any).key}
+      rowKey={(record) => (record as any).$id || (record as any).key}
       columns={columns}
       dataSource={data}
       pagination={pagination}
