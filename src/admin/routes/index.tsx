@@ -1,23 +1,30 @@
 import { type RouteObject } from "react-router-dom";
 
 import { AdminLayout } from "../layouts";
-import {
-  CategoryPage,
-  Home,
-  LoginPage,
-  OrderPage,
-  ProductPage,
-} from "../views";
+import { CategoryPage, LoginPage, OrderPage, ProductPage } from "../views";
+import { PrivateRoute } from "../components";
 
 export const adminRoutes: RouteObject[] = [
   {
     path: "/admin",
-    element: <AdminLayout />,
+    element: <PrivateRoute element={<AdminLayout />}></PrivateRoute>,
     children: [
-      { index: true, element: <CategoryPage /> },
-      { path: "category", element: <CategoryPage /> },
-      { path: "order", element: <OrderPage /> },
-      { path: "product", element: <ProductPage /> },
+      {
+        index: true,
+        element: <CategoryPage />,
+      },
+      {
+        path: "category",
+        element: <PrivateRoute element={<CategoryPage />} />,
+      },
+      {
+        path: "order",
+        element: <PrivateRoute element={<OrderPage />} />,
+      },
+      {
+        path: "product",
+        element: <PrivateRoute element={<ProductPage />} />,
+      },
     ],
   },
   {

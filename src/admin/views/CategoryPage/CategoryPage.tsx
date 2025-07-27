@@ -1,10 +1,11 @@
 import { DataTable } from "@/admin/components";
+import { useCategoryService } from "@/services";
 import type {
   ColumnsType,
   SorterResult,
   TablePaginationConfig,
 } from "antd/es/table/interface";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type User = {
   id: string;
@@ -48,6 +49,11 @@ const CategoryPage = () => {
       dataIndex: "email",
     },
   ];
+  const { getCategories, getCategory } = useCategoryService();
+  useEffect(() => {
+    getCategories();
+    getCategory("6885d6b5003548856312");
+  });
   return (
     <div>
       This is Category Page
