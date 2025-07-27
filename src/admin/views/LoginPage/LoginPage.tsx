@@ -1,10 +1,14 @@
 import React from "react";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Flex } from "antd";
+import { useAuth } from "@/services";
+import type { ISignInPayload } from "@/interfaces";
 
 const LoginPage: React.FC = () => {
-  const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+  const { signIn } = useAuth();
+
+  const onFinish = (values: ISignInPayload) => {
+    signIn(values);
   };
 
   return (
@@ -20,10 +24,13 @@ const LoginPage: React.FC = () => {
         onFinish={onFinish}
       >
         <Form.Item
-          name="username"
-          rules={[{ required: true, message: "Please input your Username!" }]}
+          name="email"
+          rules={[
+            { required: true, message: "Please input your Email!" },
+            { type: "email", message: "The input is not valid E-mail!" },
+          ]}
         >
-          <Input prefix={<UserOutlined />} placeholder="Username" />
+          <Input prefix={<MailOutlined />} placeholder="Email" />
         </Form.Item>
         <Form.Item
           name="password"
