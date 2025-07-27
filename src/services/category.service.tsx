@@ -39,5 +39,65 @@ export const useCategoryService = () => {
     }
   };
 
-  return { loading, getCategories, getCategory };
+  const createCategory = (payload: any) => {
+    try {
+      setLoading(true);
+      return databases.createDocument(
+        DATABASE_ID,
+        CATEGORIES_ID,
+        "unique()",
+        payload
+      );
+    } catch (errors) {
+      if (errors instanceof AppwriteException)
+        notification.error({
+          message: errors.type,
+          description: errors.message,
+        });
+      throw errors;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateCategory = (id: string, payload: any) => {
+    try {
+      setLoading(true);
+      return databases.updateDocument(DATABASE_ID, CATEGORIES_ID, id, payload);
+    } catch (errors) {
+      if (errors instanceof AppwriteException)
+        notification.error({
+          message: errors.type,
+          description: errors.message,
+        });
+      throw errors;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteCategory = (id: string) => {
+    try {
+      setLoading(true);
+      return databases.deleteDocument(DATABASE_ID, CATEGORIES_ID, id);
+    } catch (errors) {
+      if (errors instanceof AppwriteException)
+        notification.error({
+          message: errors.type,
+          description: errors.message,
+        });
+      throw errors;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    loading,
+    getCategories,
+    getCategory,
+    createCategory,
+    updateCategory,
+    deleteCategory,
+  };
 };
