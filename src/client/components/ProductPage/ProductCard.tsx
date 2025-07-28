@@ -2,17 +2,19 @@ import { EyeOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 interface IProductProps {
+  $id: string;
   name: string;
   price: number;
   imageUrl: string;
+  slug: string;
 }
 
 const ProductCard = (props: IProductProps) => {
-  const { name, price, imageUrl } = props;
+  const { $id, name, price, imageUrl, slug } = props;
   const navigate = useNavigate();
 
-  const goToDetail = (slug: string) => {
-    navigate(`/product/${slug}`);
+  const goToDetail = (slug: string, id: string) => {
+    navigate(`/product/${slug}-${id}`);
   };
   return (
     <div className="group relative rounded overflow-hidden bg-white">
@@ -23,7 +25,7 @@ const ProductCard = (props: IProductProps) => {
       />
       <div
         className="mt-4 text-sm font-medium text-gray-1 mb-2 hover:text-blue-400 cursor-pointer"
-        onClick={() => goToDetail("as12321fa-123gase-123tgh")}
+        onClick={() => goToDetail(slug, $id)}
       >
         {name}
       </div>
