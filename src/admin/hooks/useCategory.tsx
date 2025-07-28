@@ -1,22 +1,23 @@
 import { useCategoryService } from "@/services";
 import { useCategoryStore } from "../stores/category.store";
 import { generateSlug } from "@/utils";
-import { Query } from "appwrite";
 import { useState } from "react";
 import { notification, type TablePaginationConfig } from "antd";
-
-const INITIAL_PAGINATION = {
-  current: 1,
-  pageSize: 5,
-  total: 0,
-};
+import { usePagination, useFilter, useSorter } from "@/hooks";
+import { FilterOperator } from "@/enums";
 
 export const useCategory = () => {
-  const [pagination, setPagination] =
-    useState<TablePaginationConfig>(INITIAL_PAGINATION);
-  const [searchName, setSearchName] = useState("");
   const [open, setOpen] = useState(false);
   const [formValues, setFormValues] = useState<Record<string, any>>();
+
+  const {
+    pagination,
+    setPagination,
+    resetPagination,
+    generatePaginationQuery,
+  } = usePagination();
+  const { sorter, setSorter, generateSortQuery } = useSorter();
+  const { filters, setFilter, generateFilterQuery } = useFilter();
 
   const { setCategories } = useCategoryStore();
   const { getCategories, createCategory, updateCategory, deleteCategory } =
@@ -24,16 +25,10 @@ export const useCategory = () => {
 
   const buildQuery = () => {
     const query = [
-      Query.limit(pagination.pageSize || 3),
-      Query.offset(
-        ((pagination.current || 1) - 1) * (pagination.pageSize || 3)
-      ),
-      Query.orderDesc("$createdAt"),
+      ...generatePaginationQuery(),
+      ...generateSortQuery(),
+      ...generateFilterQuery(),
     ];
-
-    if (searchName.trim()) {
-      query.push(Query.equal("name", searchName.trim()));
-    }
 
     return query;
   };
@@ -42,23 +37,27 @@ export const useCategory = () => {
     const query = buildQuery();
     const res = await getCategories(query);
     setCategories(res.documents as any);
-    setPagination((prev) => ({ ...prev, total: res.total }));
+    setPagination({ total: res.total });
   };
 
   const handleSearch = (value: string) => {
-    setSearchName(value);
-    setPagination((prev) => ({
-      ...prev,
-      current: 1,
-    }));
+    setFilter("name", {
+      field: "name",
+      value,
+      operator: FilterOperator.SEARCH,
+    });
+    resetPagination();
   };
 
   const handlePagination = (pagination: TablePaginationConfig) => {
-    setPagination((prev) => ({
-      ...prev,
+    setPagination({
       current: pagination.current || 1,
-      pageSize: pagination.pageSize || 3,
-    }));
+      pageSize: pagination.pageSize || 5,
+    });
+  };
+
+  const handleSorter = (sorter: any) => {
+    setSorter(sorter);
   };
 
   const handleSubmit = async (data: any) => {
@@ -69,7 +68,7 @@ export const useCategory = () => {
       });
     else
       await createCategory({ name: data.name, slug: generateSlug(data.name) });
-    setPagination((prev) => ({ ...prev, current: 1 }));
+    resetPagination();
     setOpen(false);
     setFormValues({});
     await fetchCategories();
@@ -78,7 +77,7 @@ export const useCategory = () => {
 
   const handleDelete = async (id: string) => {
     await deleteCategory(id);
-    setPagination((prev) => ({ ...prev, current: 1 }));
+    resetPagination();
     await fetchCategories();
   };
 
@@ -92,10 +91,11 @@ export const useCategory = () => {
   };
 
   return {
+    filters,
     formValues,
     pagination,
-    searchName,
     open,
+    sorter,
     handleDelete,
     fetchCategories,
     handlePagination,
@@ -103,5 +103,6 @@ export const useCategory = () => {
     handleSubmit,
     openModal,
     closeModal,
+    handleSorter,
   };
 };

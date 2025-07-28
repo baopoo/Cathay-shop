@@ -1,14 +1,8 @@
 import { DataTable } from "@/admin/components";
 import { useCategory } from "@/admin/hooks";
 import { CATEGORY_COLUMN } from "@/constants";
-import { useCategoryService } from "@/services";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Input, Modal, Popconfirm, Space } from "antd";
-import type {
-  ColumnsType,
-  TablePaginationConfig,
-} from "antd/es/table/interface";
-import { useEffect, useState } from "react";
+import { Button, Modal, Popconfirm, Space } from "antd";
+import { useEffect } from "react";
 import CategoryForm from "./CategoryForm";
 import { useCategoryStore } from "@/admin/stores";
 
@@ -20,14 +14,11 @@ type User = {
 };
 
 const CategoryPage = () => {
-  const handleChange = (value: any) => {
-    console.log(value);
-  };
-
   const {
     formValues,
+    sorter,
     pagination,
-    searchName,
+    filters,
     open,
     openModal,
     closeModal,
@@ -36,13 +27,14 @@ const CategoryPage = () => {
     handleSubmit,
     handleSearch,
     handleDelete,
+    handleSorter,
   } = useCategory();
 
   const { categories, loading } = useCategoryStore();
 
   useEffect(() => {
     fetchCategories();
-  }, [pagination.current, pagination.pageSize, searchName]);
+  }, [pagination.current, pagination.pageSize, sorter, filters]);
 
   const actionColumn = {
     title: "Thao tác",
@@ -69,7 +61,7 @@ const CategoryPage = () => {
         data={categories}
         pagination={pagination}
         setPagination={handlePagination}
-        setSorter={handleChange}
+        setSorter={handleSorter}
         handleSearch={handleSearch}
         onClickButton={openModal}
       />
