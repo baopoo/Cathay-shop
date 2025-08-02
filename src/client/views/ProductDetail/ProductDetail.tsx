@@ -1,22 +1,22 @@
 import { useEffect } from "react";
-import { Col, Image, Row, Spin } from "antd";
+import { Col, Row, Spin } from "antd";
 import { useParams } from "react-router-dom";
 
 import { ProductImage, ProductInfo } from "@/client/components";
 import { getLastSegment } from "@/client/utils";
-import { useProduct } from "@/client/hooks";
+import { useProduct, useVariant } from "@/client/hooks";
 import { useProductStore } from "@/stores";
-
-import menSize from "@/client/assets/men-size.webp";
 
 const ProductDetail = () => {
   const { slug } = useParams();
   const { getProductDetail } = useProduct();
+  const { getVariantsByProductId } = useVariant();
   const { productSelected, loading } = useProductStore();
 
   useEffect(() => {
     const productId = getLastSegment(slug as string);
     getProductDetail(productId);
+    getVariantsByProductId(productId);
   }, [slug]);
 
   return (
@@ -36,13 +36,6 @@ const ProductDetail = () => {
           </Col>
           <Col xs={24} md={12}>
             <ProductInfo />
-
-            <Image
-              className="mt-2"
-              width={"100%"}
-              src={menSize}
-              alt="Size for men"
-            />
           </Col>
         </Row>
       </div>
