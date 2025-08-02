@@ -8,8 +8,10 @@ interface FilterConfig {
   operator?: FilterOperator;
 }
 
-export const useFilter = () => {
-  const [filters, setFilters] = useState<Record<string, FilterConfig>>({});
+type FiltersMap = Record<string, FilterConfig>;
+
+export const useFilter = (initialFilters: FiltersMap = {}) => {
+  const [filters, setFilters] = useState<FiltersMap>(initialFilters);
 
   const setFilter = (
     key: string,

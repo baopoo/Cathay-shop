@@ -99,6 +99,14 @@ export const useProduct = () => {
     await fetchProducts();
   };
 
+  const handleUpdateIsShow = async (record: any) => {
+    await updateProduct(record?.$id, {
+      isShow: !record.isShow,
+    });
+    notification.success({ message: "Updated product successfully" });
+    await fetchProducts();
+  };
+
   return {
     open,
     pagination,
@@ -113,5 +121,6 @@ export const useProduct = () => {
     closeModal,
     handleSubmit,
     handleDelete,
+    handleUpdateIsShow,
   };
 };
