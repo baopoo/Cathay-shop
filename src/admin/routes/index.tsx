@@ -1,7 +1,13 @@
 import { type RouteObject } from "react-router-dom";
 
 import { AdminLayout } from "../layouts";
-import { CategoryPage, LoginPage, OrderPage, ProductPage } from "../views";
+import {
+  CategoryPage,
+  LoginPage,
+  OrderPage,
+  ProductAdd,
+  ProductPage,
+} from "../views";
 import { PrivateRoute } from "../components";
 
 export const adminRoutes: RouteObject[] = [
@@ -24,6 +30,10 @@ export const adminRoutes: RouteObject[] = [
       {
         path: "product",
         element: <PrivateRoute element={<ProductPage />} />,
+      },
+      {
+        path: "product/add",
+        element: <PrivateRoute element={<ProductAdd />} />,
       },
     ],
   },

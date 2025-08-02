@@ -7,6 +7,7 @@ import _ from "lodash";
 import { useCallback } from "react";
 
 export interface IDataTable<T> {
+  labelBtn?: string;
   loading: boolean;
   columns: ColumnsType<T>;
   data: T[];
@@ -18,6 +19,7 @@ export interface IDataTable<T> {
 }
 
 const DataTable = <T extends object>({
+  labelBtn = "",
   loading,
   columns,
   data,
@@ -60,7 +62,7 @@ const DataTable = <T extends object>({
         />
         <Button type="primary" onClick={onClickButton}>
           <PlusCircleOutlined />
-          Add Category
+          {labelBtn}
         </Button>
       </div>
       <Table<T>

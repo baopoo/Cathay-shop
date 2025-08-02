@@ -1,14 +1,14 @@
 import { useCategoryService } from "@/services";
-import { useCategoryStore } from "../stores/category.store";
 import { generateSlug } from "@/utils";
 import { useState } from "react";
 import { notification, type TablePaginationConfig } from "antd";
 import { usePagination, useFilter, useSorter } from "@/hooks";
 import { FilterOperator } from "@/enums";
+import { useCategoryStore } from "@/stores";
 
 export const useCategory = () => {
   const [open, setOpen] = useState(false);
-  const [formValues, setFormValues] = useState<Record<string, any>>();
+  const [formValues, setFormValues] = useState<Record<string, any>>({});
 
   const {
     pagination,

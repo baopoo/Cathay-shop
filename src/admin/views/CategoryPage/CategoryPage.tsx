@@ -4,14 +4,8 @@ import { CATEGORY_COLUMN } from "@/constants";
 import { Button, Modal, Popconfirm, Space } from "antd";
 import { useEffect } from "react";
 import CategoryForm from "./CategoryForm";
-import { useCategoryStore } from "@/admin/stores";
-
-type User = {
-  id: string;
-  name: string;
-  age: number;
-  email: string;
-};
+import { useCategoryStore } from "@/stores";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 const CategoryPage = () => {
   const {
@@ -41,12 +35,16 @@ const CategoryPage = () => {
     key: "action",
     render: (_, record) => (
       <Space>
-        <Button onClick={() => openModal(record)}>Edit</Button>
+        <Button onClick={() => openModal(record)}>
+          <EditOutlined />
+        </Button>
         <Popconfirm
           title="Do you want to delete this category?"
           onConfirm={() => handleDelete(record.$id)}
         >
-          <Button danger>Delete</Button>
+          <Button danger>
+            <DeleteOutlined />
+          </Button>
         </Popconfirm>
       </Space>
     ),
@@ -55,7 +53,8 @@ const CategoryPage = () => {
   return (
     <div className="p-5">
       <div className="text-4xl mb-7 mt-2">Category Management</div>
-      <DataTable<User>
+      <DataTable
+        labelBtn="Add Category"
         loading={loading}
         columns={[...CATEGORY_COLUMN, actionColumn]}
         data={categories}
