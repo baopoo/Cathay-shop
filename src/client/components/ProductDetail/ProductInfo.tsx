@@ -1,16 +1,17 @@
 import { Button, InputNumber, Select } from "antd";
 
-import { useProductStore } from "@/stores";
+import { useProductStore, useVariantStore } from "@/stores";
 import ProductTabs from "./ProductTabs";
 
 const ProductInfo = ({}) => {
   const { productSelected } = useProductStore();
+  const { variants } = useVariantStore();
 
   return (
     <div className="flex flex-col gap-3">
       <h1 className="text-2xl text-gray-4">{productSelected.name}</h1>
       <span className="text-xl text-gray-4 font-semibold">
-        ${productSelected.price}
+        ${productSelected.price?.toFixed(2)}
       </span>
 
       <div className="flex md:flex-row gap-4 items-center">
@@ -18,12 +19,10 @@ const ProductInfo = ({}) => {
         <Select
           size="large"
           placeholder="Choose option"
-          options={[
-            { label: "S", value: "S" },
-            { label: "M", value: "M" },
-            { label: "L", value: "L" },
-            { label: "XL", value: "XL" },
-          ]}
+          options={variants.map((variant) => ({
+            value: variant?.$id,
+            label: `Size: ${variant.size} - Color: ${variant.color} - Quantity: ${variant.quantity}`,
+          }))}
           className="w-full md:w-1/2"
         />
       </div>

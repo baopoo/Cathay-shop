@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Tabs } from "antd";
 
 import { FeaturePending } from "@/components";
-import { useProductStore } from "@/stores";
+import { useProductStore, useVariantStore } from "@/stores";
 
 const ProductTabs = () => {
   const [activeKey, setActiveKey] = useState("1");
   const { productSelected } = useProductStore();
+  const { variants } = useVariantStore();
 
   return (
     <Tabs
@@ -24,7 +25,20 @@ const ProductTabs = () => {
         {
           key: "2",
           label: "Additional Information",
-          children: <p>Compositions: Cotton / Size: S, M, L, XL</p>,
+          children: (
+            <div>
+              <p>
+                Categories:{" "}
+                {productSelected.categoryId
+                  ?.map((item) => item.name)
+                  ?.toString()}
+              </p>
+
+              <p>Size: {variants?.map((item) => item.size)?.toString()}</p>
+
+              <p>Color: {variants?.map((item) => item.color)?.toString()}</p>
+            </div>
+          ),
         },
         {
           key: "3",

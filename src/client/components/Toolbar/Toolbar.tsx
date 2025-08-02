@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Skeleton } from "antd";
+
 import CategoryTabs from "./CategoryTabs";
 import ToolbarActions from "./ToolbarActions";
 
+import { useCategory } from "@/client/hooks";
+import { useCategoryStore } from "@/stores";
 import { defaultCategoryTab } from "@/client/constants";
 import type { FilterVal } from "@/client/types/filters";
 import { FilterPanel, FilterSearch } from "../Filters";
 
 const Toolbar = () => {
+  const { fetchCategories } = useCategory();
+  const { loading } = useCategoryStore();
   const [activeTab, setActiveTab] = useState(defaultCategoryTab);
   const [filters, setFilters] = useState<FilterVal>({
     sortBy: "Default",
@@ -18,7 +24,13 @@ const Toolbar = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
 
-  return (
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  return loading ? (
+    <Skeleton.Input active className="mb-2" size="small" />
+  ) : (
     <div className="mb-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 py-4">
         <CategoryTabs active={activeTab} onChange={setActiveTab} />

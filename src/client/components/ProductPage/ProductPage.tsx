@@ -5,6 +5,7 @@ import { useProductStore } from "@/stores";
 
 import ProductCard from "./ProductCard";
 import LoadMoreButton from "./LoadMoreButton";
+import { Skeleton } from "antd";
 
 const ProductPage = () => {
   const { products, loading } = useProductStore();
@@ -19,7 +20,7 @@ const ProductPage = () => {
   }, []);
 
   return (
-    <>
+    <Skeleton loading={loading} active>
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
           <ProductCard key={product.$id} {...product} />
@@ -27,7 +28,7 @@ const ProductPage = () => {
       </div>
 
       <LoadMoreButton onClick={onLoadMore} loading={loading} />
-    </>
+    </Skeleton>
   );
 };
 

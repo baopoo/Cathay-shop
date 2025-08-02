@@ -18,18 +18,20 @@ const ProductCard = (props: IProductProps) => {
   };
   return (
     <div className="group relative rounded overflow-hidden bg-white">
-      <img
-        src={imageUrl}
-        alt={name}
-        className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
-      />
+      <div className="relative w-full aspect-[1/1] overflow-hidden">
+        <img
+          src={imageUrl}
+          alt={name}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+      </div>
       <div
         className="mt-4 text-sm font-medium text-gray-1 mb-2 hover:text-blue-400 cursor-pointer"
         onClick={() => goToDetail(slug, $id)}
       >
         {name}
       </div>
-      <div className="text-gray-2">${price}</div>
+      <div className="text-gray-2">${price?.toFixed(2)}</div>
 
       {/* Quick View Button (hidden by default) */}
       <div className="absolute bottom-20 left-1/2 -translate-x-1/2 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
