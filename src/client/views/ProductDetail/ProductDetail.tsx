@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Col, Row, Spin } from "antd";
+import { Col, Row, Skeleton } from "antd";
 import { useParams } from "react-router-dom";
 
 import { ProductImage, ProductInfo } from "@/client/components";
@@ -20,7 +20,7 @@ const ProductDetail = () => {
   }, [slug]);
 
   return (
-    <Spin spinning={loading}>
+    <Skeleton loading={loading} active>
       <div className="container mx-auto px-4 py-8">
         <Row gutter={[32, 32]}>
           <Col span={24}>
@@ -39,7 +39,7 @@ const ProductDetail = () => {
           </Col>
         </Row>
       </div>
-    </Spin>
+    </Skeleton>
   );
 };
 

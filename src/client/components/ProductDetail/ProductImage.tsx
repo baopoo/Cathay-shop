@@ -9,10 +9,10 @@ const ProductImage = () => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    setImages((prev) => [
-      ...prev,
-      ...variants?.flatMap((variant) => variant.images || []),
-    ]);
+    const newImages = Array.from(
+      new Set(variants.flatMap((v) => v.images || []))
+    );
+    setImages(newImages);
   }, [variants]);
 
   return (
