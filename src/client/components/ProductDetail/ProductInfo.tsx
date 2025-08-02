@@ -1,11 +1,42 @@
-import { Button, InputNumber, Select } from "antd";
-
-import { useProductStore, useVariantStore } from "@/stores";
+import { Button, InputNumber, Select, message } from "antd";
+import { useState } from "react";
+import { useProductStore, useVariantStore, useCartStore } from "@/stores";
 import ProductTabs from "./ProductTabs";
 
-const ProductInfo = ({}) => {
+const ProductInfo = () => {
   const { productSelected } = useProductStore();
   const { variants } = useVariantStore();
+  const { addToCart } = useCartStore();
+
+  const [selectedVariantId, setSelectedVariantId] = useState<
+    string | undefined
+  >();
+  const [quantity, setQuantity] = useState<number>(1);
+
+  const handleAddToCart = () => {
+    const variant = variants.find((v) => v.$id === selectedVariantId);
+    if (!variant) {
+      message.warning("Please select a option product before adding to cart");
+      return;
+    }
+    addToCart(
+      {
+        id: variant.$id,
+        productId: productSelected.$id,
+        name: productSelected.name,
+        slug: productSelected.slug,
+        price: productSelected.price,
+        image: variant.images?.[0] || productSelected.image,
+        variant: {
+          size: variant.size,
+          color: variant.color,
+        },
+      },
+      quantity
+    );
+
+    message.success("Product added to cart!");
+  };
 
   return (
     <div className="flex flex-col gap-3">
@@ -21,9 +52,10 @@ const ProductInfo = ({}) => {
           placeholder="Choose option"
           options={variants.map((variant) => ({
             value: variant?.$id,
-            label: `Size: ${variant.size} - Color: ${variant.color} - Quantity: ${variant.quantity}`,
+            label: `Size: ${variant.size} - Color: ${variant.color} - Qty: ${variant.quantity}`,
           }))}
           className="w-full md:w-1/2"
+          onChange={(value) => setSelectedVariantId(value)}
         />
       </div>
 
@@ -31,12 +63,13 @@ const ProductInfo = ({}) => {
         <InputNumber
           size="large"
           min={1}
-          value={1}
-          onChange={(event) => console.log(event)}
+          value={quantity}
+          onChange={(value) => setQuantity(value || 1)}
         />
         <Button
           size="large"
           className="px-6 rounded-2xl bg-blue-600 text-white hover:!bg-blue-800 hover:!text-white"
+          onClick={handleAddToCart}
         >
           Add to cart
         </Button>

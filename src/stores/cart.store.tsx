@@ -5,9 +5,9 @@ import { CART_STORAGE_KEY } from "@/constants";
 interface CartItem {
   id: string;
   name: string;
+  slug: string;
   price: number;
-  quantity: number;
-  [key: string]: any; // Có thể chứa variant, image, v.v.
+  [key: string]: any;
 }
 
 interface CartState {
@@ -22,11 +22,10 @@ export const useCartStore = create<CartState>((set, get) => ({
   cart: [],
 
   addToCart: (item, quantity = 1) => {
+    console.log("quantity", quantity);
     const currentCart = get().cart;
 
-    const index = currentCart.findIndex(
-      (i) => i.id === item.id && i.variant === item.variant
-    );
+    const index = currentCart.findIndex((i) => i.id === item.id);
 
     let updatedCart = [...currentCart];
 
@@ -37,6 +36,7 @@ export const useCartStore = create<CartState>((set, get) => ({
     }
 
     // Lưu vào store và localStorage
+    console.log(updatedCart);
     set({ cart: updatedCart });
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(updatedCart));
   },

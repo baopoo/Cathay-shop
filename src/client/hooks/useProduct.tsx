@@ -1,75 +1,72 @@
-import { useProductService } from "@/services";
-import { useProductStore } from "@/stores";
-import { Query } from "appwrite";
-import { useState } from "react";
+import { useEffect } from "react";
 import { type TablePaginationConfig } from "antd";
 
-const INITIAL_PAGINATION = {
-  current: 1,
-  pageSize: 5,
-  total: 0,
-};
+import { FilterOperator } from "@/enums";
+import { useFilter, usePagination, useSorter } from "@/hooks";
+import { useProductService } from "@/services";
+import { useProductStore } from "@/stores";
 
 export const useProduct = () => {
-  const [pagination, setPagination] =
-    useState<TablePaginationConfig>(INITIAL_PAGINATION);
-  const [searchName, setSearchName] = useState("");
+  const {
+    pagination,
+    setPagination,
+    resetPagination,
+    generatePaginationQuery,
+  } = usePagination();
+  const { sorter, setSorter, generateSortQuery } = useSorter();
+  const { filters, setFilter, generateFilterQuery } = useFilter();
 
-  const { setProduct, setProductSelected } = useProductStore();
-  const { getProducts, getProduct } = useProductService();
+  const { getProducts } = useProductService();
+  const { setProduct } = useProductStore();
 
-  const buildQuery = () => {
-    const query = [
-      Query.limit(pagination.pageSize || 3),
-      Query.offset(
-        ((pagination.current || 1) - 1) * (pagination.pageSize || 3)
-      ),
-      Query.orderDesc("$createdAt"),
-    ];
+  const buildQuery = () => [
+    ...generatePaginationQuery(),
+    ...generateSortQuery(),
+    ...generateFilterQuery(),
+  ];
 
-    if (searchName.trim()) {
-      query.push(Query.equal("name", searchName.trim()));
-    }
+  useEffect(() => {
+    setFilter("isShow", {
+      field: "isShow",
+      value: true,
+      operator: FilterOperator.EQUAL,
+    });
+  }, []);
 
-    return query;
+  const handleSorter = (sorter: any) => {
+    setSorter(sorter);
+  };
+
+  const handlePagination = (pagination: TablePaginationConfig) => {
+    setPagination({
+      current: pagination.current || 1,
+      pageSize: pagination.pageSize || 5,
+    });
+  };
+
+  const handleSearch = (value: string) => {
+    setFilter("name", {
+      field: "name",
+      value,
+      operator: FilterOperator.SEARCH,
+    });
+    resetPagination();
   };
 
   const fetchProducts = async () => {
     const query = buildQuery();
     const res = await getProducts(query);
-    console.log(res);
     setProduct(res.documents as any);
-    setPagination((prev) => ({ ...prev, total: res.total }));
-  };
-
-  const handleSearch = (value: string) => {
-    setSearchName(value);
-    setPagination((prev) => ({
-      ...prev,
-      current: 1,
-    }));
-  };
-
-  const handlePagination = (pagination: TablePaginationConfig) => {
-    setPagination((prev) => ({
-      ...prev,
-      current: pagination.current || 1,
-      pageSize: pagination.pageSize || 3,
-    }));
-  };
-
-  const getProductDetail = async (id: string) => {
-    const res = await getProduct(id);
-    console.log(res);
-    setProductSelected(res);
+    setPagination({ total: res.total });
   };
 
   return {
     pagination,
-    searchName,
+    sorter,
+    filters,
     fetchProducts,
+    handleSorter,
     handlePagination,
     handleSearch,
-    getProductDetail,
   };
 };
