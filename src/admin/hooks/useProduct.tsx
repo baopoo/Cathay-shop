@@ -1,10 +1,11 @@
+import _ from "lodash";
 import { FilterOperator } from "@/enums";
 import { useFilter, usePagination, useSorter } from "@/hooks";
 import { useProductService } from "@/services";
 import { useProductStore } from "@/stores";
 import { generateSlug } from "@/utils";
 import { notification, type TablePaginationConfig } from "antd";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export const useProduct = () => {
   const [open, setOpen] = useState(false);
@@ -73,7 +74,6 @@ export const useProduct = () => {
   };
 
   const handleSubmit = async (data: any) => {
-    console.log(data);
     if (formValues?.$id)
       await updateProduct(formValues?.$id, {
         ...data,
@@ -100,6 +100,14 @@ export const useProduct = () => {
     await fetchProducts();
   };
 
+  const handleUpdateIsShow = async (record: any) => {
+    await updateProduct(record?.$id, {
+      isShow: !record.isShow,
+    });
+    notification.success({ message: "Updated product successfully" });
+    await fetchProducts();
+  };
+
   return {
     open,
     pagination,
@@ -114,5 +122,6 @@ export const useProduct = () => {
     closeModal,
     handleSubmit,
     handleDelete,
+    handleUpdateIsShow,
   };
 };

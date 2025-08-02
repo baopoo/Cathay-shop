@@ -14,7 +14,7 @@ const AdminLayout = () => {
         <Layout>
           <Header />
           <Content>
-            <div className="main-content">
+            <div className="main-content overflow-y-auto">
               <Outlet />
             </div>
           </Content>
