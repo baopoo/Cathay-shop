@@ -1,12 +1,16 @@
 import { Image } from "antd";
 
+import { useProductStore } from "@/stores";
+
 const ProductImage = () => {
+  const { productSelected } = useProductStore();
+
   return (
     <div>
       <Image
         width={"100%"}
-        src="https://themewagon.github.io/cozastore/images/product-detail-01.jpg"
-        alt="Product"
+        src={productSelected.imageUrl}
+        alt={productSelected.name}
       />
       <div className="flex flex-wrap gap-2 mt-4">
         <Image

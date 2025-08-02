@@ -15,8 +15,8 @@ export const useProduct = () => {
     useState<TablePaginationConfig>(INITIAL_PAGINATION);
   const [searchName, setSearchName] = useState("");
 
-  const { setProduct } = useProductStore();
-  const { getProducts } = useProductService();
+  const { setProduct, setProductSelected } = useProductStore();
+  const { getProducts, getProduct } = useProductService();
 
   const buildQuery = () => {
     const query = [
@@ -58,11 +58,18 @@ export const useProduct = () => {
     }));
   };
 
+  const getProductDetail = async (id: string) => {
+    const res = await getProduct(id);
+    console.log(res);
+    setProductSelected(res);
+  };
+
   return {
     pagination,
     searchName,
     fetchProducts,
     handlePagination,
     handleSearch,
+    getProductDetail,
   };
 };

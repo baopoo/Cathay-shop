@@ -20,9 +20,12 @@ const Header = () => {
 
   return (
     <header className="border-b-2 shadow-sm bg-white">
-      <div className="flex items-center justify-between px-4 md:px-10 py-4 container mx-auto">
+      <div
+        className="flex items-center justify-between px-4 md:px-10 py-4 container mx-auto"
+        onClick={() => navigate("/")}
+      >
         {/* Logo */}
-        <div className="text-xl md:text-2xl font-bold">
+        <div className="text-xl md:text-2xl font-bold cursor-pointer">
           <span className="text-gray-900 mr-1">CATHAY</span>
           <span className="text-gray-500 font-normal">STORE</span>
         </div>

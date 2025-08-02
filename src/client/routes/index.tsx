@@ -19,7 +19,7 @@ export const clientRoutes: RouteObject[] = [
       { path: "contact", element: <Contact /> },
       { path: "blog", element: <Blob /> },
       { path: "shopping-cart", element: <ShoppingCart /> },
-      { path: "product/:slug-:id", element: <ProductDetail /> },
+      { path: "product/:slug", element: <ProductDetail /> },
     ],
   },
 ];

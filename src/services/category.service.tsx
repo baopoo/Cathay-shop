@@ -1,4 +1,4 @@
-import { useCategoryStore } from "@/admin/stores";
+import { useCategoryStore } from "@/stores";
 import { databases } from "@/appwrite";
 import { CATEGORIES_ID, DATABASE_ID } from "@/constants";
 import { notification } from "antd";

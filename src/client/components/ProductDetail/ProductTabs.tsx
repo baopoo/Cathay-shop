@@ -1,9 +1,12 @@
-import { Tabs } from "antd";
 import { useState } from "react";
+import { Tabs } from "antd";
+
 import { FeaturePending } from "@/components";
+import { useProductStore } from "@/stores";
 
 const ProductTabs = () => {
   const [activeKey, setActiveKey] = useState("1");
+  const { productSelected } = useProductStore();
 
   return (
     <Tabs
@@ -14,9 +17,7 @@ const ProductTabs = () => {
           label: "Description",
           children: (
             <p className="text-gray-600 leading-7 max-w-3xl">
-              Aenean sit amet gravida nisi. Nam fermentum est felis, quis
-              feugiat nunc fringilla sit amet. Ut in blandit ipsum. Quisque
-              luctus dui at ante aliquet, in hendrerit lectus interdum.
+              {productSelected.description}
             </p>
           ),
         },

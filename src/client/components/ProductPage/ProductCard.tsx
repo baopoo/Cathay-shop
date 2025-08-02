@@ -29,7 +29,7 @@ const ProductCard = (props: IProductProps) => {
       >
         {name}
       </div>
-      {/* <div className="text-gray-2">${price.toFixed(2)}</div> */}
+      <div className="text-gray-2">${price}</div>
 
       {/* Quick View Button (hidden by default) */}
       <div className="absolute bottom-20 left-1/2 -translate-x-1/2 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
