@@ -1,11 +1,10 @@
-import _ from "lodash";
 import { FilterOperator } from "@/enums";
 import { useFilter, usePagination, useSorter } from "@/hooks";
 import { useProductService } from "@/services";
 import { useProductStore } from "@/stores";
 import { generateSlug } from "@/utils";
 import { notification, type TablePaginationConfig } from "antd";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 export const useProduct = () => {
   const [open, setOpen] = useState(false);
