@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { type TablePaginationConfig } from "antd";
 
 import { FilterOperator } from "@/enums";
@@ -14,7 +13,18 @@ export const useProduct = () => {
     generatePaginationQuery,
   } = usePagination();
   const { sorter, setSorter, generateSortQuery } = useSorter();
-  const { filters, setFilter, generateFilterQuery } = useFilter();
+  const { filters, setFilter, generateFilterQuery } = useFilter({
+    isShow: {
+      field: "isShow",
+      value: true,
+      operator: FilterOperator.EQUAL,
+    },
+    $createdAt: {
+      field: "$createdAt",
+      value: null,
+      operator: FilterOperator.ORDER_DESC,
+    },
+  });
 
   const { getProducts } = useProductService();
   const { setProduct } = useProductStore();
@@ -24,14 +34,6 @@ export const useProduct = () => {
     ...generateSortQuery(),
     ...generateFilterQuery(),
   ];
-
-  useEffect(() => {
-    setFilter("isShow", {
-      field: "isShow",
-      value: true,
-      operator: FilterOperator.EQUAL,
-    });
-  }, []);
 
   const handleSorter = (sorter: any) => {
     setSorter(sorter);

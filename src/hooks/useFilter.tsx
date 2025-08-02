@@ -49,6 +49,9 @@ export const useFilter = (initialFilters: FiltersMap = {}) => {
           case FilterOperator.CONTAINS:
             queries.push(Query.contains(field, [value]));
             break;
+          case FilterOperator.ORDER_DESC:
+            queries.push(Query.orderDesc(field));
+            break;
           default:
             queries.push(Query.equal(field, value));
             break;
