@@ -1,7 +1,11 @@
 import { CartItem, CartSummary } from "@/client/components";
 import { Button, Input } from "antd";
 
+import { useCartStore } from "@/stores";
+
 const ShoppingCart = () => {
+  const { cart } = useCartStore();
+
   return (
     <div className="max-w-7xl mx-auto py-8">
       <div className="text-[12px] text-gray-3 mb-6">
@@ -10,28 +14,21 @@ const ShoppingCart = () => {
       <div className="flex flex-col md:flex-row gap-8">
         <div className="flex-1">
           <div className="bg-white border rounded shadow-sm">
-            <div className="grid grid-cols-4 font-semibold text-sm p-4 border-b">
+            <div className="grid grid-cols-6 font-semibold text-sm p-4 border-b">
               <div className="col-span-2">Product</div>
+              <div className="col-span-2">Option</div>
               <div>Quantity</div>
               <div>Total</div>
             </div>
             <div className="p-4">
-              <CartItem
-                image="https://themewagon.github.io/cozastore/images/product-01.jpg"
-                name="Fresh Strawberries"
-                price={36.0}
-                quantity={2}
-                onChangeQuantity={(value) => {
-                  console.log(value);
-                }}
-              />
-              <CartItem
-                image="https://themewagon.github.io/cozastore/images/product-02.jpg"
-                name="Lightweight Jacket"
-                price={16.0}
-                quantity={2}
-                onChangeQuantity={() => {}}
-              />
+              {cart.map((item) => (
+                <CartItem
+                  {...item}
+                  onChangeQuantity={(value) => {
+                    console.log(value);
+                  }}
+                />
+              ))}
             </div>
           </div>
           <div className="flex justify-between items-center mt-4 gap-4 flex-wrap">

@@ -26,8 +26,8 @@ export const useProduct = () => {
     },
   });
 
-  const { getProducts } = useProductService();
-  const { setProduct } = useProductStore();
+  const { getProducts, getProduct } = useProductService();
+  const { setProduct, setProductSelected } = useProductStore();
 
   const buildQuery = () => [
     ...generatePaginationQuery(),
@@ -62,10 +62,16 @@ export const useProduct = () => {
     setPagination({ total: res.total });
   };
 
+  const getProductDetail = async (id: string) => {
+    const res = await getProduct(id);
+    setProductSelected(res);
+  };
+
   return {
     pagination,
     sorter,
     filters,
+    getProductDetail,
     fetchProducts,
     handleSorter,
     handlePagination,

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Badge, Drawer } from "antd";
 import {
@@ -9,13 +9,28 @@ import {
 } from "@ant-design/icons";
 
 import { useCartStore } from "@/stores";
+import { CART_STORAGE_KEY } from "@/constants";
 
 import Navbar from "./Navbar";
 
 const Header = () => {
   const navigate = useNavigate();
   const [openDrawer, setOpenDrawer] = useState(false);
-  const { cart } = useCartStore();
+  const { cart, setCart } = useCartStore();
+
+  useEffect(() => {
+    const cartData = localStorage.getItem(CART_STORAGE_KEY);
+    if (cartData) {
+      try {
+        const parsed = JSON.parse(cartData);
+        if (Array.isArray(parsed)) {
+          setCart(parsed);
+        }
+      } catch (e) {
+        console.error("Failed to parse cart from localStorage", e);
+      }
+    }
+  }, []);
 
   const goToCart = () => {
     navigate("/shopping-cart");
