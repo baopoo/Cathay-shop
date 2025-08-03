@@ -7,6 +7,7 @@ import {
   OrderPage,
   ProductAdd,
   ProductPage,
+  VariantPage,
 } from "../views";
 import { PrivateRoute } from "../components";
 
@@ -32,8 +33,8 @@ export const adminRoutes: RouteObject[] = [
         element: <PrivateRoute element={<ProductPage />} />,
       },
       {
-        path: "product/add",
-        element: <PrivateRoute element={<ProductAdd />} />,
+        path: "variant",
+        element: <PrivateRoute element={<VariantPage />} />,
       },
     ],
   },

@@ -3,6 +3,7 @@ import {
   ProfileOutlined,
   AppstoreOutlined,
   ShoppingOutlined,
+  BranchesOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -45,6 +46,12 @@ const Navbar = () => {
             icon: <ShoppingOutlined />,
             label: "Products",
             onClick: () => navigate("/admin/product"),
+          },
+          {
+            key: "/admin/variant",
+            icon: <BranchesOutlined />,
+            label: "Variant",
+            onClick: () => navigate("/admin/variant"),
           },
           {
             key: "/admin/order",
