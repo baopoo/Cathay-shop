@@ -1,31 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import { InputNumber } from "antd";
-
 import { useCartStore } from "@/stores";
 
 interface IProps {
-  id: string;
-  name: string;
-  slug: string;
-  image: string;
-  price: number;
-  [key: string]: any;
+  id: string; // variant id
 }
 
-const CartItem = ({
-  id,
-  name,
-  slug,
-  image,
-  price,
-  quantity,
-  productId,
-  variant,
-}: IProps) => {
+const CartItem = ({ id }: IProps) => {
   const navigate = useNavigate();
-  const { updateQuantity } = useCartStore();
+  const { cart, updateQuantity } = useCartStore();
 
-  const goToDetailProduct = (slug: string, productId: string) => {
+  const item = cart.find((i) => i.id === id);
+  if (!item) return null;
+
+  const { name, slug, image, price, quantity, productId, variant } = item;
+
+  const goToDetailProduct = () => {
     navigate(`/product/${slug}-${productId}`);
   };
 
@@ -41,7 +31,7 @@ const CartItem = ({
         <div>
           <div
             className="text-gray-3 cursor-pointer hover:text-blue-500"
-            onClick={() => goToDetailProduct(slug, productId)}
+            onClick={goToDetailProduct}
           >
             {name}
           </div>
