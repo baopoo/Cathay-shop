@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { InputNumber } from "antd";
+import { InputNumber, Popconfirm } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
+
 import { useCartStore } from "@/stores";
 
 interface IProps {
@@ -8,7 +10,7 @@ interface IProps {
 
 const CartItem = ({ id }: IProps) => {
   const navigate = useNavigate();
-  const { cart, updateQuantity } = useCartStore();
+  const { cart, updateQuantity, removeFromCart } = useCartStore();
 
   const item = cart.find((i) => i.id === id);
   if (!item) return null;
@@ -24,8 +26,13 @@ const CartItem = ({ id }: IProps) => {
     updateQuantity(id, value);
   };
 
+  const handleRemoveItem = () => {
+    console.log("check");
+    removeFromCart(id);
+  };
+
   return (
-    <div className="grid grid-cols-6 text-sm p-4 items-center">
+    <div className="grid grid-cols-7 text-sm p-4 items-center">
       <div className="col-span-2 flex gap-2 items-center">
         <img src={image} alt={name} className="w-16 h-16 object-cover" />
         <div>
@@ -43,6 +50,18 @@ const CartItem = ({ id }: IProps) => {
       </div>
       <InputNumber min={1} value={quantity} onChange={handleChangeQuantity} />
       <div className="text-gray-3">${(price * quantity).toFixed(2)}</div>
+      <div className="flex justify-center cursor-pointer hover:text-blue-500">
+        <Popconfirm
+          title="Are you sure you want to remove this item from your cart?"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={handleRemoveItem}
+        >
+          <div className="flex justify-center cursor-pointer hover:text-red-500">
+            <DeleteOutlined />
+          </div>
+        </Popconfirm>
+      </div>
     </div>
   );
 };

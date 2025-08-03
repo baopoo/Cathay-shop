@@ -19,6 +19,14 @@ const ProductInfo = () => {
       message.warning("Please select a option product before adding to cart");
       return;
     }
+
+    if (quantity > variant.quantity) {
+      message.warning(
+        `Just only ${variant.quantity} items available in this option !`
+      );
+      return;
+    }
+
     addToCart(
       {
         id: variant.$id,
