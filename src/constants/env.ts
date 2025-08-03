@@ -4,3 +4,4 @@ export const DATABASE_ID = import.meta.env.VITE_DATABASE_ID;
 export const CATEGORIES_ID = import.meta.env.VITE_CATEGORIES_ID;
 export const PRODUCTS_ID = import.meta.env.VITE_PRODUCTS_ID;
 export const VARIANTS_ID = import.meta.env.VITE_VARIANTS_ID;
+export const ORDERS_ID = import.meta.env.VITE_ORDERS_ID;

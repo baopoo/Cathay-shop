@@ -2,3 +2,4 @@ export * from "./product.store";
 export * from "./category.store";
 export * from "./variant.store";
 export * from "./cart.store";
+export * from "./order.store";
