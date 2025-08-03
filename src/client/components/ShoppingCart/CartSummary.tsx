@@ -15,7 +15,7 @@ const CartSummary = ({ discount }: IProps) => {
       <h2 className="text-lg font-semibold mb-4">Cart Totals</h2>
       <div className="flex justify-between mb-2">
         <span>Subtotal:</span>
-        <span>${subTotal}</span>
+        <span>${subTotal.toFixed(2)}</span>
       </div>
       <div className="text-sm text-gray-500 mb-4">
         There are no shipping methods available. Please double check your

@@ -41,7 +41,7 @@ const ProductImage = () => {
 
   return (
     <div className="relative w-full">
-      <div className="relative h-[400px] rounded overflow-hidden bg-white flex items-center justify-center">
+      <div className="relative h-[600px] rounded overflow-hidden bg-white flex items-center justify-center">
         <Image
           width="100%"
           height="100%"
@@ -73,7 +73,6 @@ const ProductImage = () => {
         </button>
       </div>
 
-      {/* Ảnh nhỏ */}
       <div className="flex flex-wrap gap-2 mt-4">
         {images.map((img, index) => (
           <Image
@@ -83,6 +82,7 @@ const ProductImage = () => {
             }`}
             preview={false}
             width={80}
+            height={100}
             src={img}
             onClick={() => changeImage(index)}
           />
