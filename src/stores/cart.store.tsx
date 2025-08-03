@@ -17,13 +17,13 @@ interface CartState {
   removeFromCart: (id: string) => void;
   clearCart: () => void;
   setCart: (items: CartItem[]) => void;
+  updateQuantity: (variantId: string, quantity: number) => void; // thêm dòng này
 }
 
 export const useCartStore = create<CartState>((set, get) => ({
   cart: [],
 
   addToCart: (item, quantity = 1) => {
-    console.log("quantity", quantity);
     const currentCart = get().cart;
 
     const index = currentCart.findIndex((i) => i.id === item.id);
@@ -56,5 +56,14 @@ export const useCartStore = create<CartState>((set, get) => ({
   setCart: (items) => {
     set({ cart: items });
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+  },
+
+  updateQuantity: (variantId: string, quantity: number) => {
+    const cart = get().cart;
+    const updatedCart = cart.map((item) =>
+      item.variantId === variantId ? { ...item, quantity } : item
+    );
+    set({ cart: updatedCart });
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
   },
 }));
