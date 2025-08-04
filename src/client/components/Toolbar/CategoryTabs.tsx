@@ -8,16 +8,19 @@ const CategoryTabs = ({ active, onChange }: CategoryTabsProps) => {
   const [categoryTabs, setCategoryTabs] = useState([]);
 
   useEffect(() => {
-    setCategoryTabs([{ $id: "all", name: "All Products" }, ...categories]);
+    setCategoryTabs([
+      { $id: "all", name: "All Products", slug: "product" },
+      ...categories,
+    ]);
   }, [categories]);
   return (
     <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm font-medium max-w-full">
-      {categoryTabs.map(({ $id, name }) => (
+      {categoryTabs.map(({ $id, name, slug }) => (
         <button
           key={$id}
-          onClick={() => onChange($id)}
+          onClick={() => onChange(`${slug}-${$id}`)}
           className={`hover:text-black hover:underline hover:underline-offset-4 ${
-            active === $id
+            active === `${slug}-${$id}`
               ? "text-black underline underline-offset-4"
               : "text-gray-500"
           }`}

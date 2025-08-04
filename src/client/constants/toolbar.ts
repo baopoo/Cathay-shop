@@ -9,4 +9,4 @@ export const categoriesTab: Category[] = [
   { id: "watches", name: "Watches" },
 ];
 
-export const defaultCategoryTab = "all";
+export const defaultCategoryTab = "product-all";

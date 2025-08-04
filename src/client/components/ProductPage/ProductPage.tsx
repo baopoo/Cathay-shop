@@ -1,23 +1,14 @@
-import { useEffect } from "react";
-
-import { useProduct } from "@/client/hooks";
+import { Skeleton } from "antd";
 import { useProductStore } from "@/stores";
-
 import ProductCard from "./ProductCard";
 import LoadMoreButton from "./LoadMoreButton";
-import { Skeleton } from "antd";
 
 const ProductPage = () => {
   const { products, loading } = useProductStore();
-  const { fetchProducts } = useProduct();
 
   const onLoadMore = () => {
     console.log("check load more");
   };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
 
   return (
     <Skeleton loading={loading} active>
