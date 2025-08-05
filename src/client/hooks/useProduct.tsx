@@ -4,8 +4,13 @@ import { FilterOperator } from "@/enums";
 import { useFilter, usePagination, useSorter } from "@/hooks";
 import { useProductService } from "@/services";
 import { useProductStore } from "@/stores";
+import { useLocation } from "react-router-dom";
 
 export const useProduct = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const categoryIdRaw = searchParams.get("categoryIdRaw")?.split("-").pop();
+
   const {
     pagination,
     setPagination,
@@ -23,6 +28,11 @@ export const useProduct = () => {
       field: "$createdAt",
       value: null,
       operator: FilterOperator.ORDER_DESC,
+    },
+    categoryIdRaw: {
+      field: "categoryIdRaw",
+      value: categoryIdRaw,
+      operator: FilterOperator.EQUAL,
     },
   });
 
@@ -57,7 +67,6 @@ export const useProduct = () => {
 
   const fetchProducts = async () => {
     const query = buildQuery();
-    console.log(query);
     const res = await getProducts(query);
     setProduct(res.documents as any);
     setPagination({ total: res.total });

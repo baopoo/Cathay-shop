@@ -46,6 +46,7 @@ const Toolbar = () => {
   }, []);
 
   useEffect(() => {
+    console.log("check setfilter");
     const categoryId = activeTab.split("-").pop();
     if (categoryId !== allValue) {
       setFilter(categoryFilterKey, {
@@ -64,9 +65,9 @@ const Toolbar = () => {
   }, [activeTab]);
 
   useEffect(() => {
-    console.log("check", filterQuery);
+    console.log("check", searchParams);
     fetchProducts();
-  }, [filterQuery]);
+  }, [searchParams]);
 
   return loading ? (
     <Skeleton.Input active className="mb-2" size="small" />

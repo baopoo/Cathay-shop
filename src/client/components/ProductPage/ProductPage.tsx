@@ -6,9 +6,7 @@ import LoadMoreButton from "./LoadMoreButton";
 const ProductPage = () => {
   const { products, loading } = useProductStore();
 
-  const onLoadMore = () => {
-    console.log("check load more");
-  };
+  const onLoadMore = () => {};
 
   return (
     <Skeleton loading={loading} active>

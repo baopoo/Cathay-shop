@@ -73,7 +73,6 @@ export const useProduct = () => {
   };
 
   const handleSubmit = async (data: any) => {
-    console.log(data);
     if (formValues?.$id)
       await updateProduct(formValues?.$id, {
         ...data,

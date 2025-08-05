@@ -27,7 +27,6 @@ const CartItem = ({ id }: IProps) => {
   };
 
   const handleRemoveItem = () => {
-    console.log("check");
     removeFromCart(id);
   };
 
