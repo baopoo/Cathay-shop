@@ -5,6 +5,7 @@ export const colorOptions = [
   { label: "Green", value: "#22c55e" },
   { label: "Red", value: "#ef4444" },
   { label: "White", value: "#fff" },
+  { label: "Beige", value: "#f5f5dc" },
 ];
 
 export const sizeOptions = [

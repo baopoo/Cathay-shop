@@ -13,7 +13,7 @@ export const useProduct = () => {
     generatePaginationQuery,
   } = usePagination();
   const { sorter, setSorter, generateSortQuery } = useSorter();
-  const { filters, setFilter, generateFilterQuery } = useFilter({
+  const { filters, setFilter, generateFilterQuery, removeFilter } = useFilter({
     isShow: {
       field: "isShow",
       value: true,
@@ -57,6 +57,7 @@ export const useProduct = () => {
 
   const fetchProducts = async () => {
     const query = buildQuery();
+    console.log(query);
     const res = await getProducts(query);
     setProduct(res.documents as any);
     setPagination({ total: res.total });
@@ -71,6 +72,8 @@ export const useProduct = () => {
     pagination,
     sorter,
     filters,
+    setFilter,
+    removeFilter,
     getProductDetail,
     fetchProducts,
     handleSorter,

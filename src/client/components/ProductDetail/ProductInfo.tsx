@@ -60,7 +60,7 @@ const ProductInfo = () => {
           placeholder="Choose option"
           options={variants.map((variant) => ({
             value: variant?.$id,
-            label: `Size: ${variant.size} - Color: ${variant.color} - Qty: ${variant.quantity}`,
+            label: `Size: ${variant.size} - Color: ${variant.color} - Quantity: ${variant.quantity}`,
           }))}
           className="w-full md:w-1/2"
           onChange={(value) => setSelectedVariantId(value)}

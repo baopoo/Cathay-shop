@@ -10,7 +10,7 @@ interface State {
 }
 
 export const useOrderStore = create<State>((set) => ({
-  loading: true,
+  loading: false,
   orders: [],
   orderSelected: {},
   setLoading: (loading: boolean) => {

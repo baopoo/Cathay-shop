@@ -7,20 +7,28 @@ import ToolbarActions from "./ToolbarActions";
 
 import { useCategory, useProduct } from "@/client/hooks";
 import { useCategoryStore } from "@/stores";
-import { defaultCategoryTab } from "@/client/constants";
+import {
+  defaultCategoryTab,
+  categoryFilterKey,
+  allValue,
+} from "@/client/constants";
 import type { FilterVal } from "@/client/types/filters";
 import { FilterPanel, FilterSearch } from "../Filters";
-import { useFilter } from "@/hooks";
 import { FilterOperator } from "@/enums";
 
 const Toolbar = () => {
   const { fetchCategories } = useCategory();
-  const { fetchProducts } = useProduct();
+  const {
+    filters: filterQuery,
+    fetchProducts,
+    setFilter,
+    removeFilter,
+  } = useProduct();
   const { loading } = useCategoryStore();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { setFilter, removeFilter } = useFilter();
 
-  const initialCategory = searchParams.get("category") || defaultCategoryTab;
+  const initialCategory =
+    searchParams.get(categoryFilterKey) || defaultCategoryTab;
   const [activeTab, setActiveTab] = useState(initialCategory);
 
   const [filters, setFilters] = useState<FilterVal>({
@@ -35,21 +43,30 @@ const Toolbar = () => {
 
   useEffect(() => {
     fetchCategories();
-    fetchProducts();
   }, []);
 
   useEffect(() => {
-    // setFilter("name", {
-    //       field: "name",
-    //       value: ,
-    //       operator: FilterOperator.SEARCH,
-    //     });
+    const categoryId = activeTab.split("-").pop();
+    if (categoryId !== allValue) {
+      setFilter(categoryFilterKey, {
+        field: categoryFilterKey,
+        value: categoryId,
+        operator: FilterOperator.EQUAL,
+      });
+    } else {
+      removeFilter(categoryFilterKey);
+    }
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev);
-      next.set("category", activeTab);
+      next.set(categoryFilterKey, activeTab);
       return next;
     });
   }, [activeTab]);
+
+  useEffect(() => {
+    console.log("check", filterQuery);
+    fetchProducts();
+  }, [filterQuery]);
 
   return loading ? (
     <Skeleton.Input active className="mb-2" size="small" />

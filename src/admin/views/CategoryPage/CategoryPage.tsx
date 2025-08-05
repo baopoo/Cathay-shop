@@ -31,9 +31,9 @@ const CategoryPage = () => {
   }, [pagination.current, pagination.pageSize, sorter, filters]);
 
   const actionColumn = {
-    title: "Thao tác",
+    title: "Action",
     key: "action",
-    render: (_, record) => (
+    render: (_: any, record: Record<string, any>) => (
       <Space>
         <Button onClick={() => openModal(record)}>
           <EditOutlined />

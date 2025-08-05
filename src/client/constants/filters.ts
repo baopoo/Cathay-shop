@@ -31,3 +31,7 @@ export const tagOptions = [
   "Streetstyle",
   "Crafts",
 ];
+
+export const categoryFilterKey = "categoryIdRaw";
+
+export const allValue = "all";

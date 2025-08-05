@@ -73,17 +73,20 @@ export const useProduct = () => {
   };
 
   const handleSubmit = async (data: any) => {
+    console.log(data);
     if (formValues?.$id)
       await updateProduct(formValues?.$id, {
         ...data,
         slug: generateSlug(data.name),
         price: Number(data.price),
+        categoryIdRaw: data.categoryId,
       });
     else
       await createProduct({
         ...data,
         slug: generateSlug(data.name),
         price: Number(data.price),
+        categoryIdRaw: data.categoryId,
       });
     resetPagination();
     setOpen(false);
