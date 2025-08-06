@@ -2,7 +2,7 @@ import { DataTable } from "@/admin/components";
 import { useProduct, useVariant } from "@/admin/hooks";
 import { useVariantStore } from "@/stores";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Modal, Popconfirm, Space } from "antd";
+import { Button, Modal, Popconfirm, Image, Space } from "antd";
 import { useEffect } from "react";
 import VariantForm from "./VariantForm";
 
@@ -44,6 +44,37 @@ const VariantPage = () => {
       title: "SKU",
       key: "sku",
       render: (_, record) => <div>{record.sku}</div>,
+    },
+    {
+      title: "Images",
+      key: "images",
+      render: (_, record) => (
+        <div className="flex gap-2">
+          {record.images?.map((image) => (
+            <Image
+              width={50}
+              height={50}
+              src={image}
+              style={{ objectFit: "cover", borderRadius: 8 }}
+            />
+          ))}
+        </div>
+      ),
+    },
+    {
+      title: "Size",
+      key: "size",
+      render: (_, record) => <div>{record.size}</div>,
+    },
+    {
+      title: "Quantity",
+      key: "quantity",
+      render: (_, record) => <div>{record.quantity}</div>,
+    },
+    {
+      title: "Product Name",
+      key: "product",
+      render: (_, record) => <div>{record.product?.name}</div>,
     },
     {
       title: "Action",
