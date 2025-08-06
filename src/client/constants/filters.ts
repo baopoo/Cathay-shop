@@ -3,7 +3,7 @@ export const sortOptions = [
   "Price: Low to High",
   "Price: High to Low",
   "Name: A to Z",
-  "Price: Z to A",
+  "Name: Z to A",
 ];
 
 export const priceOptions = [
@@ -22,14 +22,6 @@ export const colorOptions = [
   { name: "Green", value: "#22c55e" },
   { name: "Red", value: "#ef4444" },
   { name: "White", value: "#fff" },
-];
-
-export const tagOptions = [
-  "Fashion",
-  "Lifestyle",
-  "Denim",
-  "Streetstyle",
-  "Crafts",
 ];
 
 export const categoryFilterKey = "categoryIdRaw";

@@ -1,4 +1,4 @@
-import { colorOptions } from "@/client/constants/filters";
+import { colorOptions } from "@/constants";
 import type { FilterProps } from "@/client/types/filters";
 
 const FilterColor = ({ activeKey, onChange }: FilterProps) => {
@@ -6,20 +6,20 @@ const FilterColor = ({ activeKey, onChange }: FilterProps) => {
     <div>
       <h4 className="font-semibold mb-4">Color</h4>
       <ul className="space-y-2">
-        {colorOptions.map(({ name, value }) => (
+        {colorOptions.map(({ label, value }) => (
           <li
-            key={name}
+            key={value}
             className="flex items-center cursor-pointer text-gray-500 hover:text-blue-600 transition"
-            onClick={() => onChange(name)}
+            onClick={() => onChange(label)}
           >
             <span
               className="w-3 h-3 rounded-full mr-2 border"
               style={{ backgroundColor: value }}
             ></span>
             <span
-              className={activeKey === name ? "text-blue-600 underline" : ""}
+              className={activeKey === label ? "text-blue-600 underline" : ""}
             >
-              {name}
+              {label}
             </span>
           </li>
         ))}
