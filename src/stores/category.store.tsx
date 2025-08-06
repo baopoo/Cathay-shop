@@ -10,7 +10,7 @@ interface State {
 }
 
 export const useCategoryStore = create<State>((set) => ({
-  loading: true,
+  loading: false,
   categories: [],
   categorySelected: {},
   setLoading: (loading: boolean) => {

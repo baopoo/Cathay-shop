@@ -10,7 +10,7 @@ interface State {
 }
 
 export const useVariantStore = create<State>((set) => ({
-  loading: true,
+  loading: false,
   variants: [],
   variantSelected: {},
   setLoading: (loading: boolean) => {
