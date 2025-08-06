@@ -5,11 +5,12 @@ import { useFilter, usePagination, useSorter } from "@/hooks";
 import { useProductService } from "@/services";
 import { useProductStore } from "@/stores";
 import { useLocation } from "react-router-dom";
+import { categoryFilterKey } from "../constants";
 
 export const useProduct = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const categoryIdRaw = searchParams.get("categoryIdRaw")?.split("-").pop();
+  const categoryId = searchParams.get("categoryIdRaw")?.split("-").pop();
 
   const {
     pagination,
@@ -30,8 +31,8 @@ export const useProduct = () => {
       operator: FilterOperator.ORDER_DESC,
     },
     categoryIdRaw: {
-      field: "categoryIdRaw",
-      value: categoryIdRaw,
+      field: categoryFilterKey,
+      value: categoryId !== "all" ? categoryId : null,
       operator: FilterOperator.EQUAL,
     },
   });

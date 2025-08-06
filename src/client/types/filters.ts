@@ -12,6 +12,5 @@ export interface FilterVal {
   sortBy: string;
   price: string;
   color: string;
-  tags: string[];
   searchVal: string;
 }

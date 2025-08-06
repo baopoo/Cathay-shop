@@ -35,7 +35,6 @@ const Toolbar = () => {
     sortBy: "Default",
     price: "All",
     color: "",
-    tags: [],
     searchVal: "",
   });
   const [showFilter, setShowFilter] = useState(false);
@@ -46,7 +45,6 @@ const Toolbar = () => {
   }, []);
 
   useEffect(() => {
-    console.log("check setfilter");
     const categoryId = activeTab.split("-").pop();
     if (categoryId !== allValue) {
       setFilter(categoryFilterKey, {
@@ -65,9 +63,12 @@ const Toolbar = () => {
   }, [activeTab]);
 
   useEffect(() => {
-    console.log("check", searchParams);
     fetchProducts();
   }, [searchParams]);
+
+  useEffect(() => {
+    console.log(filters);
+  }, [filters]);
 
   return loading ? (
     <Skeleton.Input active className="mb-2" size="small" />
