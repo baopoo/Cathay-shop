@@ -119,7 +119,7 @@ const OrderPage = () => {
     <div className="p-5">
       <div className="text-4xl mb-7 mt-2">Orders Management</div>
       <DataTable
-        labelBtn="Add Product"
+        showBtn={false}
         loading={loading || variantLoading}
         columns={actionColumn}
         data={orders}
