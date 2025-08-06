@@ -1,5 +1,4 @@
 import FilterSort from "./FilterSort";
-import FilterTag from "./FilterTag";
 import FilterPrice from "./FilterPrice";
 import FilterColor from "./FilterColor";
 
