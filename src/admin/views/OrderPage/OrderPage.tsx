@@ -1,25 +1,13 @@
 import { DataTable } from "@/admin/components";
 import { useOrder } from "@/admin/hooks/useOrder";
 import { useOrderStore } from "@/stores";
-import {
-  DownOutlined,
-  EditOutlined,
-  MailOutlined,
-  PhoneOutlined,
-} from "@ant-design/icons";
-import {
-  Button,
-  Dropdown,
-  Popconfirm,
-  Select,
-  Space,
-  Tag,
-  type MenuProps,
-} from "antd";
+import { MailOutlined, PhoneOutlined } from "@ant-design/icons";
+import { Dropdown, Modal, Table, Tag, Image, type MenuProps } from "antd";
 import { useEffect } from "react";
 
 const OrderPage = () => {
   const {
+    open,
     filters,
     sorter,
     pagination,
@@ -28,9 +16,11 @@ const OrderPage = () => {
     handleSearch,
     fetchOrders,
     handleSubmit,
+    openModal,
+    closeModal,
   } = useOrder();
 
-  const { orders, loading } = useOrderStore();
+  const { orders, loading, orderSelected } = useOrderStore();
 
   useEffect(() => {
     fetchOrders();
@@ -106,6 +96,12 @@ const OrderPage = () => {
         );
       },
     },
+    {
+      title: "Detail",
+      render: (_, record) => (
+        <Tag onClick={() => openModal(record)}>View Detail</Tag>
+      ),
+    },
   ];
 
   return (
@@ -122,13 +118,52 @@ const OrderPage = () => {
         handleSearch={handleSearch}
         // onClickButton={openModal}
       />
-      {/* <Modal open={open} onCancel={closeModal} footer="">
-    <ProductForm
-      onSubmit={handleSubmit}
-      formValues={formValues}
-      loading={loading}
-    />
-  </Modal> */}
+      <Modal open={open} onCancel={closeModal} footer="">
+        <div className="text-xl mb-5 font-medium">Order Detail</div>
+        <Table
+          rowKey={(record) => (record as any).$id || (record as any).key}
+          columns={[
+            {
+              title: "STT",
+              key: "stt",
+              render: (_: any, __: any, index: number) => (
+                <div>{index + 1}</div>
+              ),
+            },
+            {
+              title: "Image",
+              key: "imageUrl",
+              render: (_, record) => (
+                <Image
+                  width={50}
+                  height={50}
+                  src={record.imageUrl}
+                  style={{ objectFit: "cover", borderRadius: 8 }}
+                />
+              ),
+            },
+            {
+              title: "Name",
+              key: "name",
+            },
+            {
+              title: "Quantity",
+              key: "quantity",
+            },
+            {
+              title: "Price",
+              key: "price",
+            },
+            {
+              title: "Total",
+              render: (_, record) => (
+                <div>{record.quantity * record.price} $</div>
+              ),
+            },
+          ]}
+          dataSource={JSON.parse(orderSelected.items)}
+        />
+      </Modal>
     </div>
   );
 };

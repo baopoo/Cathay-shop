@@ -18,7 +18,7 @@ export const useOrder = () => {
   const { filters, setFilter, generateFilterQuery } = useFilter();
 
   const { getOrders, updateOrder } = useOrderService();
-  const { setOrder } = useOrderStore();
+  const { setOrder, setOrderSelected } = useOrderStore();
 
   const buildQuery = () => [
     ...generatePaginationQuery(),
@@ -55,6 +55,7 @@ export const useOrder = () => {
 
   const openModal = (value?: any) => {
     setOpen(true);
+    setOrderSelected(value);
   };
 
   const closeModal = () => {
