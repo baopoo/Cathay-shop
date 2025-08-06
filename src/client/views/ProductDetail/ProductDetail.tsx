@@ -7,7 +7,11 @@ import { getLastSegment } from "@/client/utils";
 import { useProduct, useVariant } from "@/client/hooks";
 import { useProductStore } from "@/stores";
 
-const ProductDetail = () => {
+interface IProps {
+  id: string;
+}
+
+const ProductDetail = ({ id }: IProps) => {
   const { slug } = useParams();
   const { getProductDetail } = useProduct();
   const { getVariantsByProductId } = useVariant();
@@ -15,7 +19,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const productId = getLastSegment(slug as string);
+    const productId = id ? id : getLastSegment(slug as string);
     getProductDetail(productId);
     getVariantsByProductId(productId);
   }, [slug]);
@@ -28,23 +32,25 @@ const ProductDetail = () => {
     <Skeleton loading={loading} active>
       <div className="container mx-auto px-4 py-8">
         <Row gutter={[32, 32]}>
-          <Col span={24}>
-            <div className="text-[12px] text-gray-3 mb-6">
-              <span className="cursor-pointer" onClick={() => goToPage("/")}>
-                Home
-              </span>{" "}
-              &gt;{" "}
-              <span
-                className="text-gray-3 cursor-pointer"
-                onClick={() => goToPage("/")}
-              >
-                Men &gt;{" "}
-              </span>
-              <span className="text-gray-1 font-medium">
-                {productSelected.name}
-              </span>
-            </div>
-          </Col>
+          {!id && (
+            <Col span={24}>
+              <div className="text-[12px] text-gray-3 mb-6">
+                <span className="cursor-pointer" onClick={() => goToPage("/")}>
+                  Home
+                </span>{" "}
+                &gt;{" "}
+                <span
+                  className="text-gray-3 cursor-pointer"
+                  onClick={() => goToPage("/")}
+                >
+                  Men &gt;{" "}
+                </span>
+                <span className="text-gray-1 font-medium">
+                  {productSelected.name}
+                </span>
+              </div>
+            </Col>
+          )}
           <Col xs={24} md={12}>
             <ProductImage />
           </Col>
