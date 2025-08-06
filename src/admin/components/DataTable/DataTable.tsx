@@ -8,6 +8,7 @@ import { useCallback } from "react";
 
 export interface IDataTable<T> {
   labelBtn?: string;
+  showBtn?: boolean;
   loading: boolean;
   columns: ColumnsType<T>;
   data: T[];
@@ -20,6 +21,7 @@ export interface IDataTable<T> {
 
 const DataTable = <T extends object>({
   labelBtn = "",
+  showBtn = true,
   loading,
   columns,
   data,
@@ -60,10 +62,12 @@ const DataTable = <T extends object>({
           suffix={<SearchOutlined />}
           onChange={onSearch}
         />
-        <Button type="primary" onClick={onClickButton}>
-          <PlusCircleOutlined />
-          {labelBtn}
-        </Button>
+        {showBtn && (
+          <Button type="primary" onClick={onClickButton}>
+            <PlusCircleOutlined />
+            {labelBtn}
+          </Button>
+        )}
       </div>
       <Table<T>
         loading={loading}

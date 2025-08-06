@@ -10,7 +10,7 @@ interface State {
 }
 
 export const useProductStore = create<State>((set) => ({
-  loading: true,
+  loading: false,
   products: [],
   productSelected: {},
   setLoading: (loading: boolean) => {

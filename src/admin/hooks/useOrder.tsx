@@ -1,12 +1,13 @@
 import { FilterOperator } from "@/enums";
 import { useFilter, usePagination, useSorter } from "@/hooks";
-import { useOrderService } from "@/services";
+import { useOrderService, useVariantService } from "@/services";
 import { useOrderStore } from "@/stores";
-import { notification, type TablePaginationConfig } from "antd";
+import { Modal, notification, type TablePaginationConfig } from "antd";
 import { useState } from "react";
 
 export const useOrder = () => {
   const [open, setOpen] = useState(false);
+  const { getVariant, updateVariant } = useVariantService();
 
   const {
     pagination,
@@ -62,13 +63,33 @@ export const useOrder = () => {
     setOpen(false);
   };
 
-  const handleSubmit = async (id: string, status: any) => {
-    await updateOrder(id, {
-      status,
-    });
+  const handleSubmit = async (record, status: any) => {
+    Modal.confirm({
+      title: "Confirm Status Change",
+      content: `Are you sure you want to change the status to "${status}"?`,
+      onOk: async () => {
+        if (status === "cancelled") {
+          await Promise.all(
+            JSON.parse(record.items)?.map(async (item) => {
+              const res = await getVariant(item.id);
+              await updateVariant(item.id, {
+                quantity: res.quantity + item.quantity,
+              });
+            })
+          );
+        }
 
-    await fetchOrders();
-    notification.success({ message: "Updated variant successfully" });
+        await updateOrder(record.$id, {
+          status,
+        });
+
+        await fetchOrders();
+
+        notification.success({
+          message: "Order status updated successfully",
+        });
+      },
+    });
   };
 
   return {

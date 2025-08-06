@@ -1,7 +1,8 @@
 import { DataTable } from "@/admin/components";
 import { useOrder } from "@/admin/hooks/useOrder";
-import { useOrderStore } from "@/stores";
-import { MailOutlined, PhoneOutlined } from "@ant-design/icons";
+import { colorOptions } from "@/constants";
+import { useOrderStore, useVariantStore } from "@/stores";
+import { EyeOutlined, MailOutlined, PhoneOutlined } from "@ant-design/icons";
 import { Dropdown, Modal, Table, Tag, Image, type MenuProps } from "antd";
 import { useEffect } from "react";
 
@@ -21,6 +22,7 @@ const OrderPage = () => {
   } = useOrder();
 
   const { orders, loading, orderSelected } = useOrderStore();
+  const { loading: variantLoading } = useVariantStore();
 
   useEffect(() => {
     fetchOrders();
@@ -76,20 +78,27 @@ const OrderPage = () => {
                 {status}
               </Tag>
             ),
-            onClick: () => handleSubmit(record.$id, status),
+            onClick: () => handleSubmit(record, status),
           }));
+
+        const tagColor =
+          record.status === "pending"
+            ? "processing"
+            : record.status === "done"
+            ? "success"
+            : "error";
+
+        if (record.status === "done" || record.status === "cancelled") {
+          return (
+            <Tag color={tagColor} style={{ cursor: "pointer" }}>
+              {record.status}
+            </Tag>
+          );
+        }
 
         return (
           <Dropdown menu={{ items: filteredItems }} trigger={["click"]}>
-            <Tag
-              color={
-                record.status === "pending"
-                  ? "processing"
-                  : record.status === "done"
-                  ? "success"
-                  : "error"
-              }
-            >
+            <Tag color={tagColor} style={{ cursor: "pointer" }}>
               {record.status}
             </Tag>
           </Dropdown>
@@ -99,7 +108,9 @@ const OrderPage = () => {
     {
       title: "Detail",
       render: (_, record) => (
-        <Tag onClick={() => openModal(record)}>View Detail</Tag>
+        <Tag onClick={() => openModal(record)}>
+          <EyeOutlined /> View Detail
+        </Tag>
       ),
     },
   ];
@@ -108,20 +119,21 @@ const OrderPage = () => {
     <div className="p-5">
       <div className="text-4xl mb-7 mt-2">Orders Management</div>
       <DataTable
-        labelBtn="Add Product"
-        loading={loading}
+        showBtn={false}
+        loading={loading || variantLoading}
         columns={actionColumn}
         data={orders}
         pagination={pagination}
         setPagination={handlePagination}
         setSorter={handleSorter}
         handleSearch={handleSearch}
-        // onClickButton={openModal}
       />
-      <Modal open={open} onCancel={closeModal} footer="">
+      <Modal width={1200} open={open} onCancel={closeModal} footer="">
         <div className="text-xl mb-5 font-medium">Order Detail</div>
         <Table
-          rowKey={(record) => (record as any).$id || (record as any).key}
+          rowKey={(record) =>
+            (record as any).$id || (record as any).key || (record as any).id
+          }
           columns={[
             {
               title: "STT",
@@ -132,27 +144,51 @@ const OrderPage = () => {
             },
             {
               title: "Image",
-              key: "imageUrl",
               render: (_, record) => (
                 <Image
                   width={50}
                   height={50}
-                  src={record.imageUrl}
+                  src={record.image}
                   style={{ objectFit: "cover", borderRadius: 8 }}
                 />
               ),
             },
             {
               title: "Name",
-              key: "name",
+              render: (_, record) => <div>{record.name}</div>,
             },
             {
-              title: "Quantity",
-              key: "quantity",
+              title: "Size",
+              render: (_, record) => <div>{record.variant?.size}</div>,
+            },
+            {
+              title: "Color",
+              render: (_, record) => (
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span
+                    style={{
+                      width: 16,
+                      height: 16,
+                      backgroundColor: record.variant?.color,
+                      borderRadius: "50%",
+                      border: "1px solid #ccc",
+                      display: "inline-block",
+                    }}
+                  />
+                  {colorOptions.find(
+                    (colorOption) => colorOption.value === record.variant?.color
+                  )?.label || record.variant?.color}
+                </div>
+              ),
             },
             {
               title: "Price",
-              key: "price",
+              render: (_, record) => <div>{record.price} $</div>,
+            },
+
+            {
+              title: "Quantity",
+              render: (_, record) => <div>{record.quantity}</div>,
             },
             {
               title: "Total",
@@ -161,7 +197,9 @@ const OrderPage = () => {
               ),
             },
           ]}
-          dataSource={JSON.parse(orderSelected.items)}
+          dataSource={
+            orderSelected?.items ? JSON.parse(orderSelected.items) : []
+          }
         />
       </Modal>
     </div>
